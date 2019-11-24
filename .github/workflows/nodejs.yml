@@ -21,6 +21,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Build & deploy
       run: |
+        git config --global krzys1u
+        git config --global user.email "stozekrzysztof@gmail.com"
         npm ci
         npm run build
         npm run deploy
