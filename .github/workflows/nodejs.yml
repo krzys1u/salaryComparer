@@ -25,6 +25,6 @@ jobs:
         git config --global user.email "stozekrzysztof@gmail.com"
         npm ci
         npm run build
-        npm run deploy
+        NODE_DEBUG=gh-pages npm run deploy
       env:
         CI: true
