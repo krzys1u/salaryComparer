@@ -22,7 +22,7 @@ jobs:
     - name: Build & deploy
       run: |
         git config --global user.name "krzys1u"
-        git config --global user.email "stozekrzysztof@gmail.com"
+        git config --global user.email "krzys1u@github.com"
         npm ci
         npm run build
         NODE_DEBUG=gh-pages npm run deploy
