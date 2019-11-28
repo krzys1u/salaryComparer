@@ -17,6 +17,7 @@
     "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
+  "homepage": "https://krzys1u.github.io/salaryComparer",
   "browserslist": {
     "production": [
       ">0.2%",
