@@ -25,7 +25,7 @@ jobs:
         git config --global user.email "krzys1u@github.com"
         npm ci
         npm run build
-        npm run deploy --user='Krzysztof Stozek <stozekrzysztof@gmail.com>' --repo=https://$TOKEN@github.com/krzys1u/salaryComparer.git
+        yarn deploy --user='Krzysztof Stozek <stozekrzysztof@gmail.com>' --repo=https://$TOKEN@github.com/krzys1u/salaryComparer.git
 
       env:
         CI: true
