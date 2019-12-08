@@ -4,8 +4,8 @@ import { FormLabel, Button } from '@material-ui/core';
 import { InputSlider } from '../InputSlider/InputSlider';
 import { CheckboxGroup } from '../CheckboxGroup/CheckboxGroup';
 
-const MIN_SLIDER = 0;
-const MAX_SLIDER = 20000;
+const MIN_SLIDER = 50;
+const MAX_SLIDER = 30000;
 const STEP = 1;
 
 const EMPLOYMENT_TYPES = [
@@ -18,8 +18,8 @@ const EMPLOYMENT_TYPES = [
   {label: 'UoP - KUP 60%', name: 'uop-kup-60'},
   {label: 'UoP - KUP 70%', name: 'uop-kup-70'},
   {label: 'UoP - KUP 80%', name: 'uop-kup-80'},
-  {label: 'B2B - low ZUS', name: 'b2b-low'},
-  {label: 'B2B - high ZUS', name: 'b2b-high'},
+  {label: 'B2B(19%) - low ZUS', name: 'b2b-low'},
+  {label: 'B2B(19%) - high ZUS', name: 'b2b-high'},
 ];
 
 export const Filters = (props) => {

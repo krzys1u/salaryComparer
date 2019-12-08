@@ -19,6 +19,9 @@ const useStyles = makeStyles(theme => ({
   filtersHidden: {
     width:0,
     display: 'none',
+  },
+  dataFetchedDate: {
+    fontSize: '10px',
   }
 }));
 
@@ -59,9 +62,17 @@ export const App = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Salary Comparer
-          </Typography>
+          <div>
+            <div>
+              <Typography variant="h6" className={classes.title}>
+                Salary Comparer
+              </Typography>
+            </div>
+            <div className={classes.dataFetchedDate}>
+              Data from 01.01.2019
+            </div>
+          </div>
+
           <GitHubRibbon repository={'https://github.com/krzys1u/salaryComparer'}/>
         </Toolbar>
       </AppBar>
