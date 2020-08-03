@@ -39,9 +39,9 @@ const parseSalaryData = (salaryData, creativeRightsValue) => ({
 
 const prepareB2bData = (brutto, zus) => ({
   brutto,
-  nettoMin: brutto * (1 - INCOME_TAX_PERCENTAGE) - zus,
-  nettoMax: brutto * (1 - INCOME_TAX_PERCENTAGE) - zus,
-  nettoAvg: brutto * (1 - INCOME_TAX_PERCENTAGE) - zus,
+  nettoMin: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
+  nettoMax: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
+  nettoAvg: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
   type: `b2b-${zus === LOW_ZUS ? 'low-zus' : 'high-zus'}`,
 });
 
