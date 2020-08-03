@@ -6,6 +6,4 @@ You can compare between:
 - UoP
 - UoP with Creative Rights
 - B2B with 19% tax and Various ZUS
-
-All tax rates are from 01.01.2019
  

@@ -7,15 +7,23 @@
     "@material-ui/icons": "^4.5.1",
     "chart.js": "^2.9.3",
     "gh-pages": "^2.1.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-scripts": "^3.2.0"
+    "node-fetch": "3.0.0-beta.7",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "^3.4.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^2.0.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "npm run prepare-data && react-scripts build",
     "prepare-data": "node scripts/prepareData.js",
     "deploy": "gh-pages -d build",
+    "lint": "eslint **/*.js",
     "eject": "react-scripts eject"
   },
   "homepage": "https://krzys1u.github.io/salaryComparer",

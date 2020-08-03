@@ -1,0 +1,41 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [],
+  "rules": {
+    "max-len": ["error", 120, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": false,
+      "ignoreRegExpLiterals": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": false
+    }],
+    "import/prefer-default-export": "off",
+    "no-unused-expressions": "off",
+  },
+  "overrides": [
+    {
+      "files": ["*.stories.tsx"],
+      "rules": {
+        "import/no-default-export": "off"
+      }
+    }
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+
+  "env": {
+    "es6": true,
+    "node": true
+  }
+}
