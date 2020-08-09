@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const ENDPOINT = 'https://api.bankier.pl/calculators/salary/calculate/';
 const MIN = 1000;
 const MAX = 30000;
-const STEP = 50;
+const STEP = 250;
 const CREATIVE_RIGHTS = [0, 10, 20, 30, 40, 50, 60, 70, 80];
 
 const HIGH_ZUS = 1431.48;
