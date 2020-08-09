@@ -22,7 +22,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "npm run prepare-data && react-scripts build",
+    "build": "react-scripts build",
     "lint": "eslint **/*.js",
     "deploy": "gh-pages -d build",
     "eject": "react-scripts eject",
