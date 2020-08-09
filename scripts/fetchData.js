@@ -1,10 +1,8 @@
 const fetch = require('node-fetch');
 
+const { SALARY_MIN, SALARY_MAX, SALARY_STEP, CREATIVE_RIGHTS_STEPS } = require('../src/config');
+
 const ENDPOINT = 'https://api.bankier.pl/calculators/salary/calculate/';
-const MIN = 1000;
-const MAX = 30000;
-const STEP = 250;
-const CREATIVE_RIGHTS = [0, 10, 20, 30, 40, 50, 60, 70, 80];
 
 const HIGH_ZUS = 1431.48;
 const LOW_ZUS = 609.14;
@@ -73,10 +71,10 @@ const fetchData = async (brutto, creativeRightsPercent = 0) => {
   return await response.json();
 };
 
-const bruttoValues = Array.from(new Array((MAX - MIN) / STEP))
-  .map((_, index) => MIN + index * STEP)
+const bruttoValues = Array.from(new Array(1 + (SALARY_MAX - SALARY_MIN) / SALARY_STEP))
+  .map((_, index) => SALARY_MIN + index * SALARY_STEP)
   .flatMap((brutto) =>
-    CREATIVE_RIGHTS.map((creativeRightsValue) => {
+    CREATIVE_RIGHTS_STEPS.map((creativeRightsValue) => {
       return { brutto, creativeRightsValue };
     }),
   );
