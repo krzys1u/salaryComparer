@@ -1,4 +1,3 @@
-const fs = require('fs');
 const fetch = require('node-fetch');
 
 const ENDPOINT = 'https://api.bankier.pl/calculators/salary/calculate/';
@@ -7,8 +6,8 @@ const MAX = 30000;
 const STEP = 50;
 const CREATIVE_RIGHTS = [0, 10, 20, 30, 40, 50, 60, 70, 80];
 
-const HIGH_ZUS = 0;
-const LOW_ZUS = 0;
+const HIGH_ZUS = 1431.48;
+const LOW_ZUS = 609.14;
 const INCOME_TAX_PERCENTAGE = 0.19;
 
 const BATCH_SIZE = 100;
@@ -132,7 +131,7 @@ const prepareBatches = (data) => {
 
 let batches = prepareBatches(bruttoValues);
 
-(async () => {
+module.exports = async () => {
   do {
     toRetry = [];
 
@@ -159,5 +158,5 @@ let batches = prepareBatches(bruttoValues);
 
   console.log('Data has been prepared');
 
-  fs.writeFileSync('src/temp.json', JSON.stringify(results), { flag: 'w' });
-})();
+  return results;
+};

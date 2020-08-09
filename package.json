@@ -1,30 +1,32 @@
 {
-  "name": "salary-comparer",
+  "name": "salario",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.7.0",
-    "@material-ui/icons": "^4.5.1",
-    "chart.js": "^2.9.3",
+    "@material-ui/core": "5.0.0-alpha.5",
+    "@material-ui/icons": "5.0.0-alpha.4",
+    "chart.js": "3.0.0-alpha.2",
     "gh-pages": "^2.1.1",
     "node-fetch": "3.0.0-beta.7",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "^3.4.1"
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-scripts": "4.0.0-next.77",
+    "firebase": "7.17.2",
+    "firebase-admin": "9.0.0"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.9.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "prettier": "^2.0.5"
+    "eslint": "6.8.0",
+    "eslint-config-prettier": "6.9.0",
+    "eslint-plugin-prettier": "3.1.2",
+    "prettier": "2.0.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "npm run prepare-data && react-scripts build",
-    "prepare-data": "node scripts/prepareData.js",
-    "deploy": "gh-pages -d build",
     "lint": "eslint **/*.js",
-    "eject": "react-scripts eject"
+    "deploy": "gh-pages -d build",
+    "eject": "react-scripts eject",
+    "data:prepare": "node scripts/saveData.js"
   },
   "homepage": "https://krzys1u.github.io/salaryComparer",
   "browserslist": {
