@@ -1,0 +1,114 @@
+$break-small: 640px;
+
+:root {
+  --primary-color: #3f51b5;
+  --secondary-color: #536390;
+  --font-color: #000;
+  --header-color: #fff;
+  --bg-color: #fff;
+
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+[data-theme="dark"] {
+  --primary-color: #3f51b5;
+  --secondary-color: #818cab;
+  --font-color: #e1e1ff;
+  --bg-color: #161625;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app {
+  color: var(--font-color);
+}
+
+.appHeader {
+  height:60px;
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+  background: var(--primary-color);
+  color: var(--header-color);
+
+  .sidebarToggle {
+    border: 0;
+    margin: 0;
+    outline: 0;
+    cursor: pointer;
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+    user-select: none;
+    vertical-align: middle;
+    justify-content: center;
+    text-decoration: none;
+    background-color: transparent;
+    padding: 12px;
+    color: var(--header-color);
+    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border-radius: 50%;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .sidebarToggleIcon {
+    fill: currentColor;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    font-size: 1.5rem;
+    transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .appName {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .dataGeneratedTime {
+    font-size: 0.65rem;
+    line-height: 1.0;
+  }
+}
+
+.content {
+  display: flex;
+
+  .sidebar {
+    width: 30%;
+    height: 100%;
+    background: var(--bg-color);
+    padding-left: 25px;
+    margin-left: 0;
+    padding-top: 10px;
+
+    @media (max-width: $break-small) {
+      position: absolute;
+      width: 80%;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  .diagram {
+    width: 70%;
+    padding:0 25px;
+
+    @media (max-width: $break-small) {
+      width: 100%;
+    }
+  }
+}

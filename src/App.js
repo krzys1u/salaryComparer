@@ -1,89 +1,112 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import './App.css';
-
-import { Grid, makeStyles, AppBar, Typography, Toolbar, IconButton } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import './App.scss';
 
 import { GitHubRibbon } from './components/GitHubRibbon/GitHubRibbon';
 import { Diagram } from './components/Diagram/Diagram';
 import { Filters } from './components/Filters/Filters';
 
-const useStyles = makeStyles(theme => ({
-  grid: {
-    padding: '20px',
-  },
-  filters: {
-    padding: '10px',
-    paddingLeft: '15px',
-  },
-  filtersHidden: {
-    width:0,
-    display: 'none',
-  },
-  dataFetchedDate: {
-    fontSize: '10px',
-  }
-}));
+const dateToString = (date) => `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`;
+
+const fetchMetaData = () => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+      json: () => ({
+        version: 1,
+          updated: dateToString(new Date(new Date().getTime())),
+      })
+    })
+    }, 5000);
+  });
+};
+
+const fetchData = (params) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({});
+    }, 5000);
+  })
+}
 
 export const App = () => {
-  const classes = useStyles();
+  const isMobile = window.innerWidth <= 640; //@todo add recalculating on resize
 
-  const [state, setState] = useState(true);
+  const [isSidebarVisible, setSidebarVisible] = useState(!isMobile);
+  const [isDataLoading, setIsDataLoading] = useState(false);
+  const [data, setData] = useState({});
+  const [metaData, setMetaData] = useState({});
+  const [metaDataLoadingDots, setMetaDataDots] = useState([]);
 
-  const gridConfig = {
-    filters: {
-      xs: 12,
-      sm: 12,
-      md: 3,
-      lg: 3,
-      xl: 2,
-      className: state ? classes.filters : classes.filtersHidden,
-    },
-    diagram: {
-      xs: 12,
-      sm: 12,
-      md: 9,
-      lg: 9,
-      xl: 10,
-    },
-  };
+  const hideSidebarOnMobileAfterSubmit = useCallback(() => {
+    setSidebarVisible(!isMobile)
+  }, [isMobile]);
+
+  const filtersSubmitted = useCallback((state) => {
+    hideSidebarOnMobileAfterSubmit();
+
+    setIsDataLoading(true);
+
+    fetchData(state).then((data) => {
+      setIsDataLoading(false);
+      setData(data);
+    })
+  }, [
+    hideSidebarOnMobileAfterSubmit,
+    setIsDataLoading,
+    setData
+  ]);
+
+  useEffect(() => {
+    const metaDataLoadingInterval = setInterval(() => {
+      setMetaDataDots((dots) => {
+        const newDots = [...dots, '.'];
+
+        newDots.length = newDots.length % 4;
+
+        return newDots;
+      });
+    }, 500);
+
+    fetchMetaData().then(data => data.json()).then((metaData) => {
+      setMetaData(metaData)
+
+      clearInterval(metaDataLoadingInterval);
+    });
+
+    return () => {
+      clearInterval(metaDataLoadingInterval);
+    };
+  }, []);
 
   return (
     <div className="App">
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={() => {
-              setState(!state);
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
+      <header className={'appHeader'}>
+        <button className={'sidebarToggle'} onClick={() => setSidebarVisible(!isSidebarVisible)}>
+          <svg className="sidebarToggleIcon" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+          </svg>
+        </button>
+        <div>
           <div>
-            <div>
-              <Typography variant="h6" className={classes.title}>
-                Salary Comparer
-              </Typography>
-            </div>
-            <div className={classes.dataFetchedDate}>
-              Data from 01.01.2019
-            </div>
+            <h6 className={'appName'}>
+              Salario
+            </h6>
           </div>
-
-          <GitHubRibbon repository={'https://github.com/krzys1u/salaryComparer'}/>
-        </Toolbar>
-      </AppBar>
-      <Grid container className={classes.grid}>
-        <Grid item {...gridConfig.filters}>
-          <Filters/>
-        </Grid>
-        <Grid item {...gridConfig.diagram}>
+          <div className={'dataGeneratedTime'}>
+            Data generated at {metaData && metaData.updated ? metaData.updated : metaDataLoadingDots}
+          </div>
+        </div>
+        <GitHubRibbon repository={'https://github.com/krzys1u/salaryComparer'}/>
+      </header>
+      <section className={'content'}>
+        { isSidebarVisible && <aside className={'sidebar'}>
+          <Filters submitAction={filtersSubmitted}/>
+        </aside> }
+        <section className={'diagram'}>
           <Diagram/>
-        </Grid>
-      </Grid>
+        </section>
+      </section>
     </div>
   );
 }

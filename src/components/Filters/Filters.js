@@ -1,29 +1,30 @@
 import React, { useState } from 'react';
 import { FormLabel, Button } from '@material-ui/core';
 
+import {
+  SALARY_MIN,
+  SALARY_MAX,
+  SALARY_STEP,
+  CREATIVE_RIGHTS_STEPS,
+} from '../../config';
+
 import { InputSlider } from '../InputSlider/InputSlider';
 import { CheckboxGroup } from '../CheckboxGroup/CheckboxGroup';
 
-const MIN_SLIDER = 50;
-const MAX_SLIDER = 30000;
-const STEP = 1;
+const MIN_SLIDER = SALARY_MIN;
+const MAX_SLIDER = SALARY_MAX;
+const STEP = SALARY_STEP;
 
 const EMPLOYMENT_TYPES = [
-  {label: 'UoP', name: 'uop'},
-  {label: 'UoP - KUP 10%', name: 'uop-kup-10'},
-  {label: 'UoP - KUP 20%', name: 'uop-kup-20'},
-  {label: 'UoP - KUP 30%', name: 'uop-kup-30'},
-  {label: 'UoP - KUP 40%', name: 'uop-kup-40'},
-  {label: 'UoP - KUP 50%', name: 'uop-kup-50'},
-  {label: 'UoP - KUP 60%', name: 'uop-kup-60'},
-  {label: 'UoP - KUP 70%', name: 'uop-kup-70'},
-  {label: 'UoP - KUP 80%', name: 'uop-kup-80'},
-  {label: 'B2B(19%) - low ZUS', name: 'b2b-low'},
-  {label: 'B2B(19%) - high ZUS', name: 'b2b-high'},
+  ...CREATIVE_RIGHTS_STEPS.map((creativeRightsValue) => ({
+    label: `UoP - CR ${creativeRightsValue}%`, name: `uop-${creativeRightsValue}`
+  })),
+  {label: 'B2B(19%) - low ZUS', name: 'b2b-low-zus'},
+  {label: 'B2B(19%) - high ZUS', name: 'b2b-high-zus'},
 ];
 
 export const Filters = (props) => {
-  const [state, setState] = useState({from: MIN_SLIDER, to: MAX_SLIDER, types: {uop: true }});
+  const [state, setState] = useState({from: MIN_SLIDER, to: MAX_SLIDER, types: {'uop-0': true }});
 
   const updateRanges = (which, newVal) => {
     const newState = {...state, [which]: newVal};
@@ -60,7 +61,7 @@ export const Filters = (props) => {
   }
 
   const submit = () => {
-    console.log('state', state);
+    props.submitAction(state);
   }
 
   const grossFromProps = {
