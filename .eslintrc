@@ -1,10 +1,22 @@
 {
   "extends": [
+    "react-app", // for editor
     "eslint:recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "prettier/react"
   ],
   "plugins": [],
   "rules": {
+    "quotes": ["error", "single"],
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "semi": false,
+        "trailingComma": "all",
+        "jsxBracketSameLine": true
+      },
+    ],
     "max-len": ["error", 120, 2, {
       "ignoreUrls": true,
       "ignoreComments": false,
@@ -15,14 +27,6 @@
     "import/prefer-default-export": "off",
     "no-unused-expressions": "off",
   },
-  "overrides": [
-    {
-      "files": ["*.stories.tsx"],
-      "rules": {
-        "import/no-default-export": "off"
-      }
-    }
-  ],
   "settings": {
     "import/resolver": {
       "node": {
@@ -31,7 +35,8 @@
     }
   },
   "parserOptions": {
-    "ecmaVersion": 2018
+    "ecmaVersion": 2018,
+    "sourceType": "module"
   },
 
   "env": {

@@ -1,9 +1,9 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Slider from '@material-ui/core/Slider';
-import Input from '@material-ui/core/Input';
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import Slider from '@material-ui/core/Slider'
+import Input from '@material-ui/core/Input'
 
 const useStyles = makeStyles({
   root: {
@@ -12,33 +12,34 @@ const useStyles = makeStyles({
   input: {
     width: 80,
   },
-});
+})
 
-
-export const InputSlider = ({update, min, max, label, step, value}) => {
-  const classes = useStyles();
+export const InputSlider = ({ update, min, max, label, step, value }) => {
+  const classes = useStyles()
 
   const handleSliderChange = (event, newValue) => {
-    update(newValue);
-  };
+    update(newValue)
+  }
 
-  const handleInputChange = event => {
-    update(event.target.value === '' ? '' : Number(event.target.value));
-  };
+  const handleInputChange = (event) => {
+    update(event.target.value === '' ? '' : Number(event.target.value))
+  }
 
   const handleBlur = () => {
     if (value < min) {
-      update(min);
+      update(min)
     } else if (value > max) {
-      update(max);
+      update(max)
     }
-  };
+  }
 
   return (
     <div className={classes.root}>
-      {label && <Typography id="input-slider" gutterBottom>
-        {label}
-      </Typography>}
+      {label && (
+        <Typography id="input-slider" gutterBottom>
+          {label}
+        </Typography>
+      )}
       <Grid container spacing={2} alignItems="center">
         <Grid item xs>
           <Slider
@@ -67,5 +68,5 @@ export const InputSlider = ({update, min, max, label, step, value}) => {
         </Grid>
       </Grid>
     </div>
-  );
+  )
 }
