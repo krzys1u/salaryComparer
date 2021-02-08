@@ -4,8 +4,10 @@ const { FIREBASE_URL } = require('../src/config')
 const initializeFirestore = () => {
   admin.initializeApp({
     credential: admin.credential.cert({
+      type: 'service_account',
       project_id: process.env.FIREBASE_PROJECT_ID,
       private_key: process.env.FIREBASE_PRIVATE_KEY,
+      private_key_id: process.env.PROJECT_KEY_ID,
       client_email: process.env.FIREBASE_CLIENT_EMAIL,
       client_id: process.env.CLIENT_ID,
     }),
