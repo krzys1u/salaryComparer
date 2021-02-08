@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/salaryComparer/static/css/main.31ce0702.chunk.css",
-    "main.js": "/salaryComparer/static/js/main.f0fc3d1f.chunk.js",
-    "main.js.map": "/salaryComparer/static/js/main.f0fc3d1f.chunk.js.map",
-    "runtime-main.js": "/salaryComparer/static/js/runtime-main.8174825a.js",
-    "runtime-main.js.map": "/salaryComparer/static/js/runtime-main.8174825a.js.map",
-    "static/js/2.741c16db.chunk.js": "/salaryComparer/static/js/2.741c16db.chunk.js",
-    "static/js/2.741c16db.chunk.js.map": "/salaryComparer/static/js/2.741c16db.chunk.js.map",
+    "main.css": "/salaryComparer/static/css/main.3257ac1f.chunk.css",
+    "main.js": "/salaryComparer/static/js/main.7fddd779.chunk.js",
+    "main.js.map": "/salaryComparer/static/js/main.7fddd779.chunk.js.map",
+    "runtime-main.js": "/salaryComparer/static/js/runtime-main.5dc2b255.js",
+    "runtime-main.js.map": "/salaryComparer/static/js/runtime-main.5dc2b255.js.map",
+    "static/js/2.70f591c9.chunk.js": "/salaryComparer/static/js/2.70f591c9.chunk.js",
+    "static/js/2.70f591c9.chunk.js.map": "/salaryComparer/static/js/2.70f591c9.chunk.js.map",
     "index.html": "/salaryComparer/index.html",
-    "static/css/main.31ce0702.chunk.css.map": "/salaryComparer/static/css/main.31ce0702.chunk.css.map",
-    "static/js/2.741c16db.chunk.js.LICENSE.txt": "/salaryComparer/static/js/2.741c16db.chunk.js.LICENSE.txt"
+    "static/css/main.3257ac1f.chunk.css.map": "/salaryComparer/static/css/main.3257ac1f.chunk.css.map",
+    "static/js/2.70f591c9.chunk.js.LICENSE.txt": "/salaryComparer/static/js/2.70f591c9.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.8174825a.js",
-    "static/js/2.741c16db.chunk.js",
-    "static/css/main.31ce0702.chunk.css",
-    "static/js/main.f0fc3d1f.chunk.js"
+    "static/js/runtime-main.5dc2b255.js",
+    "static/js/2.70f591c9.chunk.js",
+    "static/css/main.3257ac1f.chunk.css",
+    "static/js/main.7fddd779.chunk.js"
   ]
 }
