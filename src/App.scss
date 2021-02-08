@@ -35,38 +35,52 @@ body {
   height: 100vh;
 }
 
-@keyframes bounce-dollar
-{
+@keyframes bounce-dollar {
   0% {
-    animation-timing-function: cubic-bezier(0.1361,0.2514,0.2175,0.8786);
-    transform: translate(0,39.96px) scaleY(1);
+    animation-timing-function: cubic-bezier(0.1361, 0.2514, 0.2175, 0.8786);
+    transform: translate(0, 39.96px) scaleY(1);
   }
   37% {
-    animation-timing-function: cubic-bezier(0.7674,0.1844,0.8382,0.7157);
-    transform: translate(0,0px) scaleY(1);
+    animation-timing-function: cubic-bezier(0.7674, 0.1844, 0.8382, 0.7157);
+    transform: translate(0, 0px) scaleY(1);
   }
   72% {
-    animation-timing-function: cubic-bezier(0.1118,0.2149,0.2172,0.941);
-
+    animation-timing-function: cubic-bezier(0.1118, 0.2149, 0.2172, 0.941);
   }
   87% {
-    animation-timing-function: cubic-bezier(0.7494,0.2259,0.8209,0.6963);
-    transform: translate(0,59.900000000000002px) scaleY(0.602);
+    animation-timing-function: cubic-bezier(0.7494, 0.2259, 0.8209, 0.6963);
+    transform: translate(0, 59.900000000000002px) scaleY(0.602);
   }
   100% {
-    transform: translate(0,39.96px) scaleY(1);
+    transform: translate(0, 39.96px) scaleY(1);
   }
 }
 
 .info__wrapper {
   width: 100%;
   height: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
+
+  .image__wrapper {
+    width: 12rem;
+    height: 12rem;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+  }
 
   code {
-    display:block;
+    display: block;
     margin-bottom: 20px;
   }
 
@@ -74,7 +88,8 @@ body {
     margin-top: 20px;
     width: 150px;
     height: 150px;
-    path, g {
+    path,
+    g {
       fill: #3f51b5;
     }
   }
@@ -84,7 +99,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 251, 251, 1.0);
+  background-color: rgba(255, 251, 251, 1);
 
   display: flex;
   justify-content: center;
@@ -111,7 +126,7 @@ body {
 }
 
 .appHeader {
-  height:60px;
+  height: 60px;
   padding-left: 10px;
   display: flex;
   align-items: center;
@@ -161,7 +176,7 @@ body {
 
   .dataGeneratedTime {
     font-size: 0.65rem;
-    line-height: 1.0;
+    line-height: 1;
   }
 }
 
@@ -180,7 +195,8 @@ body {
     @media (max-width: $break-small) {
       position: absolute;
       width: 80%;
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
+        0 2px 10px 0 rgba(0, 0, 0, 0.12);
     }
   }
 
@@ -190,7 +206,7 @@ body {
     }
 
     width: 70%;
-    padding:0 25px;
+    padding: 0 25px;
 
     @media (max-width: $break-small) {
       width: 100%;
