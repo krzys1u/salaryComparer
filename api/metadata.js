@@ -12,20 +12,21 @@ const initializeFirestore = () => {
   })
 
   console.log('admin.firestore()', admin.firestore())
+  console.log('admin.firestore().db', admin.firestore().db)
 
   return admin.firestore().db
 }
 
 module.exports = async (req, res) => {
-  const firestore = initializeFirestore()
+  const db = initializeFirestore()
 
-  console.log('firestore', firestore)
+  console.log('db', db)
 
-  const metaCollection = await firestore.collection('meta')
+  const metaCollection = db.collection('meta')
 
   console.log('metaCollection', metaCollection)
 
-  const versionDocument = metaCollection.doc('version').get()
+  const versionDocument = await metaCollection.doc('version').get()
 
   console.log('versionDocument', versionDocument)
 
