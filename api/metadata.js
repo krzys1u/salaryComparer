@@ -15,6 +15,8 @@ const initializeFirestore = () => {
   console.log('admin.firestore()', admin.firestore())
   console.log('admin.firestore().db', admin.firestore().db)
 
+  console.log('KEYS', Object.keys(admin.firestore()).join('\n'))
+
   return admin.firestore().db
 }
 
