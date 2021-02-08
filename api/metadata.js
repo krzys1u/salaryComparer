@@ -11,6 +11,8 @@ const initializeFirestore = () => {
     databaseURL: FIREBASE_URL,
   })
 
+  console.log('admin.firestore()', admin.firestore())
+
   return admin.firestore().db
 }
 
