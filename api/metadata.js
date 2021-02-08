@@ -8,7 +8,7 @@ const initializeFirestore = () => {
       private_key: process.env.FIREBASE_PRIVATE_KEY,
       client_email: process.env.FIREBASE_CLIENT_EMAIL,
     }),
-    databaseURL: process.env.FIREBASE_URL,
+    databaseURL: FIREBASE_URL,
   })
 
   return admin.firestore().db
@@ -17,10 +17,15 @@ const initializeFirestore = () => {
 module.exports = async (req, res) => {
   const firestore = initializeFirestore()
 
-  const versionDocument = await firestore
-    .collection('meta')
-    .doc('version')
-    .get()
+  console.log('firestore', firestore)
+
+  const metaCollection = await firestore.collection('meta')
+
+  console.log('metaCollection', metaCollection)
+
+  const versionDocument = metaCollection.doc('version').get()
+
+  console.log('versionDocument', versionDocument)
 
   const version = versionDocument.data()
 
