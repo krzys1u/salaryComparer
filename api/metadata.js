@@ -17,6 +17,8 @@ const initializeFirestore = () => {
     }),
     databaseURL: FIREBASE_URL,
   })
+
+  return admin.firestore();
 }
 
 const getMetadata = async () => {
