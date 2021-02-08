@@ -6,7 +6,11 @@ export const withDebug = (Component) => {
   return (props) => {
     const componentName = Component.displayName || Component.name
 
-    isDebugEnabled && console.info(`Rendering component: ${componentName} with props `, props || {})
+    isDebugEnabled &&
+      console.info(
+        `Rendering component: ${componentName} with props `,
+        props || {},
+      )
 
     useEffect(() => {
       isDebugEnabled && console.info(`Component mounted: ${componentName}`)
