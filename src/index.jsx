@@ -14,4 +14,7 @@ export default function ApplicationWithQueryProvider() {
   )
 }
 
-ReactDOM.render(<ApplicationWithQueryProvider />, document.getElementById('root'))
+ReactDOM.render(
+  <ApplicationWithQueryProvider />,
+  document.getElementById('root'),
+)

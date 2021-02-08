@@ -16,7 +16,8 @@ const fetchMetaData = () => {
   })
 }
 
-const dateToString = (date) => `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
+const dateToString = (date) =>
+  `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
 
 const fetchMetadata = async () => (await fetchMetaData()).json()
 
@@ -39,7 +40,11 @@ export const Header = withDebug(function Header(props) {
   return (
     <header className={'appHeader'}>
       <button className={'sidebarToggle'} onClick={() => toogleSidebar()}>
-        <svg className="sidebarToggleIcon" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+        <svg
+          className="sidebarToggleIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+          aria-hidden="true">
           <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
         </svg>
       </button>
@@ -47,7 +52,9 @@ export const Header = withDebug(function Header(props) {
         <div>
           <h6 className={'appName'}>Salario</h6>
         </div>
-        <div className={'dataGeneratedTime'}>Data generated at {data && data.updated ? data.updated : ''}</div>
+        <div className={'dataGeneratedTime'}>
+          Data generated at {data && data.updated ? data.updated : ''}
+        </div>
       </div>
       <GitHubRibbon repository={'https://github.com/krzys1u/salaryComparer'} />
     </header>
