@@ -17,29 +17,20 @@ const initializeFirestore = () => {
     }),
     databaseURL: FIREBASE_URL,
   })
-
-  console.log('admin.firestore()', admin.firestore())
-  console.log('admin.firestore().db', admin.firestore().db)
-
-  console.log('KEYS', Object.keys(admin.firestore()).join('\n'))
-
-  return admin.firestore().db
 }
 
-module.exports = async (req, res) => {
+const getMetadata = async () => {
   const db = initializeFirestore()
-
-  console.log('db', db)
 
   const metaCollection = db.collection('meta')
 
-  console.log('metaCollection', metaCollection)
-
   const versionDocument = await metaCollection.doc('version').get()
 
-  console.log('versionDocument', versionDocument)
+  return versionDocument.data()
+}
 
-  const version = versionDocument.data()
+module.exports = async (req, res) => {
+  const version = await getMetadata()
 
   res.json({
     ...version,
