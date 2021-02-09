@@ -1,12 +1,21 @@
 {
+  "functions": {
+    "src/api/*.js": {
+      "maxDuration": 60
+    }
+  },
   "headers": [
     {
       "source": "/api/(.*)",
       "headers": [
         { "key": "Access-Control-Allow-Credentials", "value": "true" },
-        { "key": "Access-Control-Allow-Origin", "value": "https://krzys1u.github.io" },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://krzys1u.github.io"
+        },
         { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS" },
-        { "key": "Vary", "value": "Origin" }
+        { "key": "Vary", "value": "Origin" },
+        { "key": "Cache-control", "value": "max-age=300" }
       ]
     }
   ]

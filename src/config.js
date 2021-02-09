@@ -1,5 +1,6 @@
 module.exports = {
   FIREBASE_URL: 'https://salario-a6a4b.firebaseio.com',
+  API_URL: 'salary-comparer.vercel.app',
   SALARY_MIN: 1000,
   SALARY_MAX: 30000,
   SALARY_STEP: 1000,

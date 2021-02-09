@@ -137,7 +137,7 @@ module.exports = async () => {
       const batchId = ++fetchedBatches;
 
       console.clear();
-      console.info(`Start fetching of batch number ${batchId}`);
+      console.info(`Start fetching of batch number ${batchId}/${batches.length}`);
 
       const data = await fetchBatch(batch);
       await parseBatch(data);
