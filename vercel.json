@@ -15,7 +15,7 @@
         },
         { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS" },
         { "key": "Vary", "value": "Origin" },
-        { "key": "Cache-control", "value": "max-age=300" }
+        { "key": "Cache-control", "value": "max-age=600" }
       ]
     }
   ]
