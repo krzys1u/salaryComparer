@@ -35,6 +35,7 @@ module.exports = async (req, res) => {
   const version = await getMetadata()
 
   res.json({
+    test: true,
     ...version,
   })
 }
