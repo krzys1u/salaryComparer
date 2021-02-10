@@ -5,14 +5,12 @@ const {
 
 const firebaseService = createFirebaseService(initializeFirestore())
 
-const document = '1000-uop-0'
-
 module.exports = async (req, res) => {
   const { from, to, types } = req.query
   const filters = []
 
-  from && filters.push(['brutto', '>=', from])
-  to && filters.push(['brutto', '<=', to])
+  from && filters.push(['brutto', '>=', parseInt(from)])
+  to && filters.push(['brutto', '<=', parseInt(to)])
   types && filters.push(['type', 'in', types])
 
   const { version } = await firebaseService.get({
@@ -25,7 +23,6 @@ module.exports = async (req, res) => {
   if (filters.length) {
     const data = await firebaseService.getWithFilters({
       collection,
-      document,
       filters,
     })
 
@@ -36,9 +33,9 @@ module.exports = async (req, res) => {
     })
   }
 
-  const data = await firebaseService.get({ collection, document })
+  //const data = await firebaseService.get({ collection })
 
   res.json({
-    ...data,
+    data: [],
   })
 }
