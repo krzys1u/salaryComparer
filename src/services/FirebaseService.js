@@ -28,10 +28,10 @@ const initializeFirestore = () => {
 const createFirebaseService = (db) => {
   return {
     getWithFilters: async ({ collection, filters }) => {
-      const query = db.collection(collection)
+      let query = db.collection(collection)
 
       filters.forEach((filter) => {
-        query.where(...filter)
+        query = query.where(...filter)
       })
 
       const snapshot = await query.get()
