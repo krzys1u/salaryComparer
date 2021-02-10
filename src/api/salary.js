@@ -20,22 +20,12 @@ module.exports = async (req, res) => {
 
   const collection = `salary-data-${version}`
 
-  if (filters.length) {
-    const data = await firebaseService.getWithFilters({
-      collection,
-      filters,
-    })
+  const data = await firebaseService.getWithFilters({
+    collection,
+    filters,
+  })
 
-    return res.json({
-      data,
-      filters,
-      query: req.query,
-    })
-  }
-
-  //const data = await firebaseService.get({ collection })
-
-  res.json({
-    data: [],
+  return res.json({
+    data,
   })
 }

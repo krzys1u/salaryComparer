@@ -14,16 +14,9 @@ const firebase = createFirebaseService(db)
 
 const collection = 'salary-data-2'
 
-const filters = [
-  ['brutto', '>=', 11000],
-  ['brutto', '<=', 12000],
-  ['type', 'in', ['uop-0', 'uop-20']],
-]
-
 firebase
   .getWithFilters({
     collection,
-    filters,
   })
   .then((data) => {
     console.log('data', data)
