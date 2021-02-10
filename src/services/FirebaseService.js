@@ -27,30 +27,26 @@ const initializeFirestore = () => {
 
 const createFirebaseService = (db) => {
   return {
-    getWithFilters: async ({collection, filters}) => {
-      const query = db
-        .collection(collection)
-        .where('brutto', '>', 10000)
-        .where('brutto', '<', 11000)
-        .where('type', 'in', ['b2b-high-zus', 'uop-0', 'uop-10'])
+    getWithFilters: async ({ collection, filters }) => {
+      const query = db.collection(collection)
 
-      filters.forEach(filter => {
-        query.where(...filter);
+      filters.forEach((filter) => {
+        query.where(...filter)
       })
 
-      const snapshot = await query.get();
+      const snapshot = await query.get()
 
       if (snapshot.empty) {
-        return [];
+        return []
       }
 
-      const results = [];
+      const results = []
 
       snapshot.forEach((doc) => {
         results.push(doc.data())
       })
 
-      return results;
+      return results
     },
     get: async ({ collection, document }) => {
       const documentHandler = db.collection(collection).doc(document)
