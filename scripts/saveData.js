@@ -37,16 +37,16 @@ const getCurrentVersion = async () => {
 
 const saveData = async (collectionName, data) => {
   return Promise.all(
-    data.map((record) =>
-      saveRecord(collectionName, getRecordId(record), record),
-    ),
+    data.map((entry) => {
+      return saveRecord(collectionName, getRecordId(entry), entry)
+    }),
   )
 }
 
-const updateVersion = async (version) => {
+const updateVersion = (version) => {
   const versionData = createVersionData(version, new Date().getTime())
 
-  await saveRecord('meta', 'version', versionData)
+  return saveRecord('meta', 'version', versionData)
 }
 
 const createNewVersion = async (data) => {
@@ -67,6 +67,18 @@ const createNewVersion = async (data) => {
 
 ;(async () => {
   const data = await fetchData()
+
+  // const documents = {}
+  //
+  // data.forEach((entry) => {
+  //   const { type } = entry
+  //
+  //   if (!documents[type]) {
+  //     documents[type] = []
+  //   }
+  //
+  //   documents[type].push(entry)
+  // })
 
   await createNewVersion(data)
 })()

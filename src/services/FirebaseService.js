@@ -25,10 +25,33 @@ const initializeFirestore = () => {
   return admin.firestore()
 }
 
-const firestore = initializeFirestore()
-
 const createFirebaseService = (db) => {
   return {
+    getWithFilters: async ({collection, filters}) => {
+      const query = db
+        .collection(collection)
+        .where('brutto', '>', 10000)
+        .where('brutto', '<', 11000)
+        .where('type', 'in', ['b2b-high-zus', 'uop-0', 'uop-10'])
+
+      filters.forEach(filter => {
+        query.where(...filter);
+      })
+
+      const snapshot = await query.get();
+
+      if (snapshot.empty) {
+        return [];
+      }
+
+      const results = [];
+
+      snapshot.forEach((doc) => {
+        results.push(doc.data())
+      })
+
+      return results;
+    },
     get: async ({ collection, document }) => {
       const documentHandler = db.collection(collection).doc(document)
 
@@ -36,15 +59,15 @@ const createFirebaseService = (db) => {
 
       return documentData.data()
     },
-    set: async ({ collection, key, record }) => {
+    set: ({ collection, key, record }) => {
       const documentHandler = db.collection(collection).doc(key)
 
-      await documentHandler.set(record)
+      return documentHandler.set(record)
     },
   }
 }
 
 module.exports = {
-  firebaseService: createFirebaseService(firestore),
   createFirebaseService,
+  initializeFirestore,
 }

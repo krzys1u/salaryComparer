@@ -1,38 +1,50 @@
-const fetch = require('node-fetch');
+const fetch = require('node-fetch')
 
-const { SALARY_MIN, SALARY_MAX, SALARY_STEP, CREATIVE_RIGHTS_STEPS } = require('../src/config');
+const {
+  SALARY_MIN,
+  SALARY_MAX,
+  SALARY_STEP,
+  CREATIVE_RIGHTS_STEPS,
+} = require('../src/config')
 
-const ENDPOINT = 'https://api.bankier.pl/calculators/salary/calculate/';
+const ENDPOINT = 'https://api.bankier.pl/calculators/salary/calculate/uop'
 
-const HIGH_ZUS = 1431.48;
-const LOW_ZUS = 609.14;
-const INCOME_TAX_PERCENTAGE = 0.19;
+const HIGH_ZUS = 1431.48
+const LOW_ZUS = 609.14
+const INCOME_TAX_PERCENTAGE = 0.19
 
-const BATCH_SIZE = 100;
+const BATCH_SIZE = 100
 
-const results = [];
+const results = []
 
-let toRetry = [];
+let toRetry = []
 
-let fetched = 0;
-let fetchedBatches = 0;
+let fetched = 0
+let fetchedBatches = 0
 
 const printReport = () => {
-  console.info(`\t Fetched: `, fetched);
-  console.info(`\t toRetry: `, toRetry.length);
-};
+  console.info('\t Fetched: ', fetched)
+  console.info('\t toRetry: ', toRetry.length)
+}
 
-const round = (number) => Math.round(number * 100 + Number.EPSILON) / 100;
+const round = (number) => Math.round(number * 100 + Number.EPSILON) / 100
 
 const parseSalaryData = (salaryData, creativeRightsValue) => ({
   brutto: salaryData.koszty[0].kwota_brutto,
-  nettoMin: salaryData.koszty.sort((first, second) => first.kwota_netto - second.kwota_netto)[0].kwota_netto,
-  nettoMax: salaryData.koszty.sort((first, second) => second.kwota_netto - first.kwota_netto)[0].kwota_netto,
+  nettoMin: salaryData.koszty.sort(
+    (first, second) => first.kwota_netto - second.kwota_netto,
+  )[0].kwota_netto,
+  nettoMax: salaryData.koszty.sort(
+    (first, second) => second.kwota_netto - first.kwota_netto,
+  )[0].kwota_netto,
   nettoAvg: round(
-    salaryData.koszty.reduce((acc, monthData) => acc + monthData.kwota_netto, 0) / salaryData.koszty.length,
+    salaryData.koszty.reduce(
+      (acc, monthData) => acc + monthData.kwota_netto,
+      0,
+    ) / salaryData.koszty.length,
   ),
   type: `uop-${creativeRightsValue}`,
-});
+})
 
 const prepareB2bData = (brutto, zus) => ({
   brutto,
@@ -40,13 +52,16 @@ const prepareB2bData = (brutto, zus) => ({
   nettoMax: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
   nettoAvg: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
   type: `b2b-${zus === LOW_ZUS ? 'low-zus' : 'high-zus'}`,
-});
+})
 
 const fetchData = async (brutto, creativeRightsPercent = 0) => {
+  const year = new Date().getFullYear()
+
   const response = await fetch(ENDPOINT, {
     method: 'post',
     body: JSON.stringify({
       kwota: brutto,
+      rok_podatkowy: year,
       ppk_procent_pracodawca: 1.5,
       ppk_procent_lacznie: 1.5,
       procent_kosztow_autorskich: creativeRightsPercent,
@@ -66,18 +81,20 @@ const fetchData = async (brutto, creativeRightsPercent = 0) => {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  })
 
-  return await response.json();
-};
+  return await response.json()
+}
 
-const bruttoValues = Array.from(new Array(1 + (SALARY_MAX - SALARY_MIN) / SALARY_STEP))
-  .map((_, index) => SALARY_MIN + index * SALARY_STEP)
-  .flatMap((brutto) =>
-    CREATIVE_RIGHTS_STEPS.map((creativeRightsValue) => {
-      return { brutto, creativeRightsValue };
-    }),
-  );
+const bruttoValues = Array.from(
+  new Array(1 + (SALARY_MAX - SALARY_MIN) / SALARY_STEP),
+).map((_, index) => SALARY_MIN + index * SALARY_STEP)
+
+const bruttoWithCreativeRights = bruttoValues.flatMap((brutto) =>
+  CREATIVE_RIGHTS_STEPS.map((creativeRightsValue) => {
+    return { brutto, creativeRightsValue }
+  }),
+)
 
 const fetchBatch = (batch) =>
   batch.map(({ brutto, creativeRightsValue }) =>
@@ -97,64 +114,73 @@ const fetchBatch = (batch) =>
             brutto,
             creativeRightsValue,
           },
-        };
+        }
       }),
-  );
+  )
 
 const parseBatch = async (batch) => {
   for await (let data of batch) {
-    if (!data.meta.ok) {
-      toRetry.push({ brutto: data.meta.brutto, creativeRightsValue: data.meta.creativeRightsValue });
-      continue;
+    const { ok, brutto, creativeRightsValue } = data.meta
+
+    if (!ok) {
+      toRetry.push({
+        brutto: brutto,
+        creativeRightsValue: creativeRightsValue,
+      })
+      continue
     }
 
-    const brutto = data.meta.brutto;
+    results.push(parseSalaryData(data, creativeRightsValue))
 
-    results.push(parseSalaryData(data, data.meta.creativeRightsValue));
-
-    results.push(prepareB2bData(brutto, HIGH_ZUS));
-    results.push(prepareB2bData(brutto, LOW_ZUS));
-
-    fetched++;
+    fetched++
   }
-};
+}
 
 const prepareBatches = (data) => {
-  const count = Math.ceil(data.length / BATCH_SIZE);
+  const count = Math.ceil(data.length / BATCH_SIZE)
 
   return Array.from(new Array(count)).map((_, index) =>
     data.slice(index * BATCH_SIZE, index * BATCH_SIZE + BATCH_SIZE),
-  );
-};
+  )
+}
 
-let batches = prepareBatches(bruttoValues);
+let batches = prepareBatches(bruttoWithCreativeRights)
 
 module.exports = async () => {
   do {
-    toRetry = [];
+    toRetry = []
 
     for await (let batch of batches) {
-      const batchId = ++fetchedBatches;
+      const batchId = ++fetchedBatches
 
-      console.clear();
-      console.info(`Start fetching of batch number ${batchId}/${batches.length}`);
+      console.clear()
+      console.info(
+        `Start fetching of batch number ${batchId}/${batches.length}`,
+      )
 
-      const data = await fetchBatch(batch);
-      await parseBatch(data);
+      const data = await fetchBatch(batch)
+      await parseBatch(data)
 
-      printReport();
+      printReport()
 
-      console.info(`Batch number ${batchId} has been fetched`);
-      console.info('---');
+      console.info(`Batch number ${batchId} has been fetched`)
+      console.info('---')
     }
 
-    console.info('Data to refetch', toRetry.length);
-    console.info('---');
+    console.info('Data to refetch', toRetry.length)
+    console.info('---')
 
-    batches = prepareBatches(toRetry);
-  } while (toRetry.length !== 0);
+    fetchedBatches = 0
 
-  console.log('Data has been prepared');
+    batches = prepareBatches(toRetry)
+  } while (toRetry.length !== 0)
 
-  return results;
-};
+  bruttoValues.forEach((brutto) => {
+    results.push(prepareB2bData(brutto, HIGH_ZUS))
+    results.push(prepareB2bData(brutto, LOW_ZUS))
+  })
+
+  console.log('Data has been prepared')
+
+  return results
+}
