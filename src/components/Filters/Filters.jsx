@@ -1,14 +1,14 @@
 import React, { useCallback, useState } from 'react'
 import { FormLabel, Button } from '@material-ui/core'
+import Slider from '@material-ui/core/Slider'
+
+import { CheckboxGroup } from '../CheckboxGroup/CheckboxGroup'
+import { withDebug } from '../../utils/withDebug'
+import { FilterInputs } from '../FilterInputs/FilterInputs'
 
 import { SALARY_MIN, SALARY_MAX, SALARY_STEP } from '../../config'
 
 import { EMPLOYMENT_TYPES } from '../../const'
-
-import { InputSlider } from '../InputSlider/InputSlider'
-import { CheckboxGroup } from '../CheckboxGroup/CheckboxGroup'
-import { withDebug } from '../../utils/withDebug'
-import Slider from '@material-ui/core/Slider'
 
 const MIN_SLIDER = SALARY_MIN
 const MAX_SLIDER = SALARY_MAX
@@ -35,16 +35,6 @@ export const Filters = withDebug(function Filters(props) {
       newState.from = newState.to
     }
 
-    ;['from', 'to'].forEach((key) => {
-      if (newState[key] > MAX_SLIDER) {
-        newState[key] = MAX_SLIDER
-      }
-
-      if (newState[key] < MIN_SLIDER) {
-        newState[key] = MIN_SLIDER
-      }
-    })
-
     setState(newState)
     setSubmitEnabled(true)
   }
@@ -66,20 +56,13 @@ export const Filters = withDebug(function Filters(props) {
     setSubmitEnabled(false)
   }
 
-  const grossFromSliderProps = {
-    update: updateRanges.bind(this, 'from'),
+  const filterInputsProps = {
+    update: updateRanges,
     min: MIN_SLIDER,
     max: MAX_SLIDER,
     step: STEP,
-    value: state.from,
-  }
-
-  const grossToSliderProps = {
-    update: updateRanges.bind(this, 'to'),
-    min: MIN_SLIDER,
-    max: MAX_SLIDER,
-    step: STEP,
-    value: state.to,
+    from: state.from,
+    to: state.to,
   }
 
   const checkboxGroupProps = {
@@ -116,8 +99,7 @@ export const Filters = withDebug(function Filters(props) {
           step={STEP}
         />
 
-        <InputSlider {...grossFromSliderProps} />
-        <InputSlider {...grossToSliderProps} />
+        <FilterInputs {...filterInputsProps} />
       </div>
       <CheckboxGroup {...checkboxGroupProps} />
       <Button
