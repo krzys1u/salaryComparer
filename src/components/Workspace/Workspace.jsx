@@ -14,8 +14,9 @@ const fetch = (params) => {
   })
 }
 
-const areFiltersEmpty = ({ types }) =>
-  !Object.keys(types).filter((key) => !!types[key]).length
+const areFiltersEmpty = ({ types, measures }) =>
+  !Object.keys(types).filter((key) => !!types[key]).length ||
+  !Object.keys(measures).filter((key) => !!measures[key]).length
 
 const fetchData = async (queryKey) => {
   const {
@@ -29,11 +30,10 @@ export const Workspace = withDebug(function Workspace({ filters }) {
   const filtersEmpty = areFiltersEmpty(filters)
 
   const { isError, error, refetch, data } = useQuery(
-    ['data', { filters }],
+    ['data', filters.types, filters.from, filters.to],
     fetchData,
     {
-      retry: false,
-      skip: filtersEmpty,
+      enabled: !filtersEmpty,
     },
   )
 

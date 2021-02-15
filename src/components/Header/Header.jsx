@@ -24,16 +24,15 @@ const fetchMetadata = async () => (await fetchMetaData()).json()
 export const Header = withDebug(function Header(props) {
   const { toogleSidebar } = props
 
-  const [skip, setSkip] = React.useState(false)
+  const [enabled, setEnabled] = React.useState(true)
 
   const { loading, data } = useQuery(['metadata'], fetchMetadata, {
-    skip,
-    retry: false,
+    enabled,
   })
 
   useEffect(() => {
     if (!loading && !!data) {
-      setSkip(true)
+      setEnabled(false)
     }
   }, [data, loading])
 

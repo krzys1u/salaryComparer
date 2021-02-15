@@ -8,7 +8,7 @@ import { FilterInputs } from '../FilterInputs/FilterInputs'
 
 import { SALARY_MIN, SALARY_MAX, SALARY_STEP } from '../../config'
 
-import { EMPLOYMENT_TYPES } from '../../const'
+import { EMPLOYMENT_TYPES, MEASURES } from '../../const'
 
 const MIN_SLIDER = SALARY_MIN
 const MAX_SLIDER = SALARY_MAX
@@ -21,40 +21,63 @@ export const Filters = withDebug(function Filters(props) {
     from: values.from,
     to: values.to,
     types: values.types,
+    measures: values.measures,
   })
+
   const [isSubmitEnabled, setSubmitEnabled] = useState(true)
 
-  const updateRanges = (which, newVal) => {
-    const newState = { ...state, [which]: newVal }
+  const updateRanges = useCallback(
+    (which, newVal) => {
+      const newState = { ...state, [which]: newVal }
 
-    if (newState.to < newState.from && which === 'from') {
-      newState.to = newState.from
-    }
+      if (newState.to < newState.from && which === 'from') {
+        newState.to = newState.from
+      }
 
-    if (newState.from > newState.to && which === 'to') {
-      newState.from = newState.to
-    }
+      if (newState.from > newState.to && which === 'to') {
+        newState.from = newState.to
+      }
 
-    setState(newState)
-    setSubmitEnabled(true)
-  }
+      setState(newState)
+      setSubmitEnabled(true)
+    },
+    [setState, setSubmitEnabled, state],
+  )
 
-  const updateTypes = (name, checked) => {
-    setState({
-      ...state,
-      types: {
-        ...state.types,
-        [name]: checked,
-      },
-    })
+  const updateTypes = useCallback(
+    (name, checked) => {
+      setState({
+        ...state,
+        types: {
+          ...state.types,
+          [name]: checked,
+        },
+      })
 
-    setSubmitEnabled(true)
-  }
+      setSubmitEnabled(true)
+    },
+    [setSubmitEnabled, state, setState],
+  )
 
-  const submit = () => {
+  const updateMeasures = useCallback(
+    (name, checked) => {
+      setState({
+        ...state,
+        measures: {
+          ...state.measures,
+          [name]: checked,
+        },
+      })
+
+      setSubmitEnabled(true)
+    },
+    [setSubmitEnabled, state, setState],
+  )
+
+  const submit = useCallback(() => {
     submitAction(state)
     setSubmitEnabled(false)
-  }
+  }, [submitAction, setSubmitEnabled, state])
 
   const filterInputsProps = {
     update: updateRanges,
@@ -65,13 +88,22 @@ export const Filters = withDebug(function Filters(props) {
     to: state.to,
   }
 
-  const checkboxGroupProps = {
+  const employmentTypesProps = {
     label: 'Choose types of employment',
     checkboxes: EMPLOYMENT_TYPES.map((config) => ({
       ...config,
       checked: state.types[config.name] || false,
     })),
     update: updateTypes,
+  }
+
+  const measuresProps = {
+    label: 'Choose measures',
+    checkboxes: MEASURES.map((config) => ({
+      ...config,
+      checked: state.measures[config.name] || false,
+    })),
+    update: updateMeasures,
   }
 
   const multiSliderChange = useCallback(
@@ -101,7 +133,8 @@ export const Filters = withDebug(function Filters(props) {
 
         <FilterInputs {...filterInputsProps} />
       </div>
-      <CheckboxGroup {...checkboxGroupProps} />
+      <CheckboxGroup {...employmentTypesProps} />
+      <CheckboxGroup {...measuresProps} />
       <Button
         variant="outlined"
         color="primary"

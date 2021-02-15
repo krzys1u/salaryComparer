@@ -13,6 +13,7 @@ import { withDebug } from './utils/withDebug'
 export const App = withDebug(function App() {
   const [filters, setFilters] = useState({
     types: { 'uop-0': true },
+    measures: { nettoMin: true },
     from: SALARY_MIN,
     to: SALARY_MAX,
   })
