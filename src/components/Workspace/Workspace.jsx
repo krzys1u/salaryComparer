@@ -9,20 +9,19 @@ import { MEASURES, EMPLOYMENT_TYPES } from '../../const'
 
 const prepareParam = (name, value) => {
   if (!Array.isArray(value)) {
-    return value
+    return [name, value]
   }
 
-  return value.map((entry) => [name, entry].join('=')).join('&')
+  return [value.map((entry) => [name, entry].join('=')).join('&')]
 }
 
 const prepareQueryParams = (params) => {
   return Object.keys(params)
-    .map((param) => [param, prepareParam(param, params[param])].join('='))
+    .map((param) => prepareParam(param, params[param]).join('='))
     .join('&')
 }
 
 const fetchSalaryData = async (params) => {
-  console.info({ params })
   const url = `${API_URL}/api/salary?${prepareQueryParams(params)}`
 
   const response = await fetch(url, params)
@@ -105,8 +104,6 @@ export const Workspace = withDebug(function Workspace({ filters }) {
   }
 
   const dataSeries = prepareData(filters, data)
-
-  console.log('dataSeries', dataSeries)
 
   return <Diagram dataSeries={dataSeries} />
 })
