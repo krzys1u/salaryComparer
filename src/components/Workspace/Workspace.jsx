@@ -4,14 +4,32 @@ import { Error as ErrorComponent } from '../Error/Error'
 import { Diagram } from '../Diagram/Diagram'
 import { EmptyFilters } from '../EmptyFilters/EmptyFilters'
 import { withDebug } from '../../utils/withDebug'
+import { API_URL } from '../../config'
+import { MEASURES, EMPLOYMENT_TYPES } from '../../const'
 
-const fetch = (params) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      reject(new Error('xyz'))
-      //resolve({data: true});
-    }, 2000)
-  })
+const prepareParam = (name, value) => {
+  if (!Array.isArray(value)) {
+    return value
+  }
+
+  return value.map((entry) => [name, entry].join('=')).join('&')
+}
+
+const prepareQueryParams = (params) => {
+  return Object.keys(params)
+    .map((param) => [param, prepareParam(param, params[param])].join('='))
+    .join('&')
+}
+
+const fetchSalaryData = async (params) => {
+  console.info({ params })
+  const url = `${API_URL}/api/salary?${prepareQueryParams(params)}`
+
+  const response = await fetch(url, params)
+
+  const { data } = await response.json()
+
+  return data
 }
 
 const areFiltersEmpty = ({ types, measures }) =>
@@ -20,10 +38,47 @@ const areFiltersEmpty = ({ types, measures }) =>
 
 const fetchData = async (queryKey) => {
   const {
-    queryKey: [, { filters }],
+    queryKey: [, types, from, to],
   } = queryKey
 
-  return await fetch(filters)
+  return await fetchSalaryData({
+    types: Object.keys(types).filter((key) => !!key),
+    from,
+    to,
+  })
+}
+
+const prepareData = ({ types, measures }, data) => {
+  const dataSeries = {}
+
+  const getLabel = (entries, key) =>
+    entries.find((entry) => entry.name === key).label
+
+  const getDataPointLabel = (measure, type) =>
+    `${getLabel(MEASURES, measure)} (${getLabel(EMPLOYMENT_TYPES, type)})`
+
+  data.forEach((dataPoint) => {
+    Object.keys(measures)
+      .filter((key) => !!measures[key])
+      .forEach((measure) => {
+        const label = getDataPointLabel(measure, dataPoint.type)
+
+        if (!dataSeries[label]) {
+          dataSeries[label] = []
+        }
+
+        dataSeries[label].push({
+          x: dataPoint.brutto,
+          y: dataPoint[measure],
+          label,
+        })
+      })
+  })
+
+  return Object.keys(dataSeries).map((key) => ({
+    label: key,
+    data: dataSeries[key],
+  }))
 }
 
 export const Workspace = withDebug(function Workspace({ filters }) {
@@ -41,7 +96,7 @@ export const Workspace = withDebug(function Workspace({ filters }) {
     refetch({ throwOnError: false })
   }, [refetch])
 
-  if (filtersEmpty) {
+  if (!data || filtersEmpty) {
     return <EmptyFilters />
   }
 
@@ -49,5 +104,9 @@ export const Workspace = withDebug(function Workspace({ filters }) {
     return <ErrorComponent error={error} onClick={errorClick} />
   }
 
-  return <Diagram data={data} />
+  const dataSeries = prepareData(filters, data)
+
+  console.log('dataSeries', dataSeries)
+
+  return <Diagram dataSeries={dataSeries} />
 })

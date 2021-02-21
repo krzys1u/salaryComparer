@@ -2,31 +2,30 @@ import React, { useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { GitHubRibbon } from '../GitHubRibbon/GitHubRibbon'
 import { withDebug } from '../../utils/withDebug'
+import { API_URL } from '../../config'
 
-const fetchMetaData = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        json: () => ({
-          version: 1,
-          updated: dateToString(new Date(new Date().getTime())),
-        }),
-      })
-    }, 2000)
-  })
+const dateToString = (timestamp) => {
+  const date = new Date(timestamp)
+
+  return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
 }
 
-const dateToString = (date) =>
-  `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
+const fetchMetaData = async () => {
+  const url = `${API_URL}/api/metadata`
 
-const fetchMetadata = async () => (await fetchMetaData()).json()
+  const response = await fetch(url)
+
+  const { created } = await response.json()
+
+  return dateToString(created)
+}
 
 export const Header = withDebug(function Header(props) {
   const { toogleSidebar } = props
 
   const [enabled, setEnabled] = React.useState(true)
 
-  const { loading, data } = useQuery(['metadata'], fetchMetadata, {
+  const { loading, data } = useQuery(['metadata'], fetchMetaData, {
     enabled,
   })
 
@@ -52,7 +51,7 @@ export const Header = withDebug(function Header(props) {
           <h6 className={'appName'}>Salario</h6>
         </div>
         <div className={'dataGeneratedTime'}>
-          Data generated at {data && data.updated ? data.updated : ''}
+          Data generated at {data ?? ''}
         </div>
       </div>
       <GitHubRibbon repository={'https://github.com/krzys1u/salaryComparer'} />

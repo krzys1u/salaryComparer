@@ -5,13 +5,21 @@ const {
 
 const firebaseService = createFirebaseService(initializeFirestore())
 
+const prepareTypes = (types) => {
+  if(Array.isArray(types)) {
+    return types;
+  }
+
+  return [types];
+}
+
 module.exports = async (req, res) => {
   const { from, to, types } = req.query
   const filters = []
 
   from && filters.push(['brutto', '>=', parseInt(from)])
   to && filters.push(['brutto', '<=', parseInt(to)])
-  types && filters.push(['type', 'in', types])
+  types && filters.push(['type', 'in', prepareTypes(types)])
 
   const { version } = await firebaseService.get({
     collection: 'meta',

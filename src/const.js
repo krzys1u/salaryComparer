@@ -2,7 +2,7 @@ import { CREATIVE_RIGHTS_STEPS } from './config'
 
 export const EMPLOYMENT_TYPES = [
   ...CREATIVE_RIGHTS_STEPS.map((creativeRightsValue) => ({
-    label: `UoP - CR ${creativeRightsValue}%`,
+    label: `CoE - CR ${creativeRightsValue}%`,
     name: `uop-${creativeRightsValue}`,
   })),
   { label: 'B2B(19%) - low ZUS', name: 'b2b-low-zus' },
@@ -12,5 +12,5 @@ export const EMPLOYMENT_TYPES = [
 export const MEASURES = [
   { label: 'Min', name: 'nettoMin' },
   { label: 'Max', name: 'nettoMax' },
-  { label: 'Average', name: 'nettoAverage' },
+  { label: 'Avg', name: 'nettoAvg' },
 ]
