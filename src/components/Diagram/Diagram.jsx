@@ -1,40 +1,189 @@
-import React from 'react'
-import { XYChart, CrossHair, XAxis, YAxis } from '@data-ui/xy-chart'
-import LineSeries from '@data-ui/xy-chart/lib/series/LineSeries'
+import React, { useContext } from 'react'
+import {
+  WithTooltip,
+  LineSeries,
+  CrossHair,
+  XAxis,
+  YAxis,
+  Brush,
+  XYChart,
+} from '@data-ui/xy-chart'
+import { LegendOrdinal, LegendItem, LegendLabel } from '@vx/legend'
+import { scaleOrdinal } from '@vx/scale'
 
-const renderTooltip = ({ datum, color }) => {
+import { WorkspaceSizeContext } from '../../contexts/WorkspaceSizeContext'
+
+const colors = [
+  '#c92a2a',
+  '#a61e4d',
+  '#862e9c',
+  '#5f3dc4',
+  '#364fc7',
+  '#1862ab',
+  '#0b7285',
+  '#087f5b',
+  '#2b8a3e',
+  '#5c940d',
+  '#e67700',
+  '#d9480f',
+  '#69d2e7',
+  '#a7dbd8',
+  '#e0e4cc',
+  '#f38630',
+  '#fa6900',
+  '#f215b7',
+  '#db6991',
+  '#cfb5fc',
+  '#ffdac9',
+  '#b71013',
+  '#dca2f2',
+  '#606ff2',
+  '#dd18ca',
+  '#fffa7a',
+  '#f4bcab',
+  '#eabb10',
+  '#d4f473',
+  '#8fe6e8',
+  '#19b739',
+  '#0875af',
+]
+
+const getColor = (index) => colors[index]
+
+const renderTooltip = (dataPoints, { datum }) => {
+  const dataPoint = dataPoints[datum.x]
+
   return (
     <div>
       <div>
-        <strong>Gross: </strong>
-        {datum.x}
+        <strong>Gross: {datum.x}</strong>
       </div>
-      <div>
-        <strong>{datum.label}: </strong>
-        {datum.y}
-      </div>
+
+      {}
+
+      {dataPoint.map(([label, currentValue], index) => {
+        const color = getColor(index)
+
+        const isCurrent = datum.label === label
+
+        return (
+          <div key={label}>
+            <span
+              style={{
+                color,
+                textDecoration: isCurrent ? `underline solid ${color}` : null,
+                fontWeight: isCurrent ? 600 : 200,
+              }}>
+              {`${label} `}
+            </span>
+            {currentValue}
+          </div>
+        )
+      })}
     </div>
   )
 }
 
-export const Diagram = ({ dataSeries }) => {
+export const Diagram = ({ dataSeries, dataPoints }) => {
+  const { width, height } = useContext(WorkspaceSizeContext)
+
+  const legendScale = scaleOrdinal({
+    range: dataSeries.map((_, index) => {
+      const color = getColor(index)
+
+      return {
+        stroke: color,
+        strokeDasharray: '',
+      }
+    }),
+    domain: dataSeries.map((d) => d.label),
+  })
+
   return (
-    <XYChart
-      ariaLabel="Salary diagram"
-      width={500}
-      height={500}
-      xScale={{ type: 'linear' }}
-      yScale={{ type: 'linear' }}
-      renderTooltip={renderTooltip}
-      snapTooltipToDataX>
-      <XAxis label="Gross" />
-      <YAxis label="Net" />
+    <>
+      <WithTooltip renderTooltip={renderTooltip.bind(null, dataPoints)}>
+        {({ onMouseLeave, onMouseMove, tooltipData }) => (
+          <XYChart
+            ariaLabel="Salaries"
+            eventTrigger={'container'}
+            onMouseMove={onMouseMove}
+            onMouseLeave={onMouseLeave}
+            renderTooltip={null}
+            showVoronoi={false}
+            snapTooltipToDataX
+            snapTooltipToDataY={false}
+            tooltipData={tooltipData}
+            width={width}
+            height={0.75 * height}
+            xScale={{ type: 'linear' }}
+            yScale={{ type: 'linear' }}>
+            <XAxis label="Gross" numTicks={10} />
+            <YAxis label="Net" orientation="left" numTicks={6} />
+            {dataSeries.map(({ label, data }, index) => {
+              const color = getColor(index)
 
-      {dataSeries.map(({ label, data }) => {
-        return <LineSeries data={data} seriesKey={label} key={label} />
-      })}
+              return (
+                <LineSeries
+                  key={label}
+                  data={data}
+                  seriesKey={label}
+                  strokeWidth={2}
+                  stroke={color}
+                />
+              )
+            })}
+            <CrossHair
+              fullHeight
+              showHorizontalLine={false}
+              strokeDasharray=""
+              circleSize={(d) => (d.y === tooltipData.datum.y ? 6 : 4)}
+              circleStroke={(d) => {
+                const currentLabel = d.label
 
-      <CrossHair showHorizontalLine={false} fullHeight stroke="pink" />
-    </XYChart>
+                const color = getColor(
+                  Object.keys(tooltipData.series).indexOf(currentLabel),
+                )
+
+                return d.y === tooltipData.datum.y ? '#fff' : color
+              }}
+              circleStyles={{ strokeWidth: 1.5 }}
+              circleFill={(d) => {
+                const currentLabel = d.label
+
+                const color = getColor(
+                  Object.keys(tooltipData.series).indexOf(currentLabel),
+                )
+
+                return d.y === tooltipData.datum.y ? color : '#fff'
+              }}
+              showCircle={true}
+              showMultipleCircles={true}
+            />
+            <Brush disableDraggingSelection />
+          </XYChart>
+        )}
+      </WithTooltip>
+
+      <LegendOrdinal scale={legendScale}>
+        {(labels) => (
+          <div
+            style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+            {labels.map((label, i) => (
+              <LegendItem
+                key={`legend-${i}`}
+                margin="0 5px"
+                style={{ width: '230px', display: 'flex' }}>
+                <svg width={15} height={15}>
+                  <rect fill={label.value.stroke} width={15} height={15} />
+                </svg>
+                <LegendLabel align="left" margin="0 0 0 4px">
+                  {label.text}
+                </LegendLabel>
+              </LegendItem>
+            ))}
+          </div>
+        )}
+      </LegendOrdinal>
+    </>
   )
 }

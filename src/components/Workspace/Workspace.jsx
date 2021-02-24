@@ -49,6 +49,7 @@ const fetchData = async (queryKey) => {
 
 const prepareData = ({ types, measures }, data) => {
   const dataSeries = {}
+  const dataPoints = {}
 
   const getLabel = (entries, key) =>
     entries.find((entry) => entry.name === key).label
@@ -60,24 +61,34 @@ const prepareData = ({ types, measures }, data) => {
     Object.keys(measures)
       .filter((key) => !!measures[key])
       .forEach((measure) => {
-        const label = getDataPointLabel(measure, dataPoint.type)
+        const { type, brutto } = dataPoint
+        const label = getDataPointLabel(measure, type)
 
         if (!dataSeries[label]) {
           dataSeries[label] = []
         }
 
+        if (!dataPoints[brutto]) {
+          dataPoints[brutto] = []
+        }
+
+        dataPoints[brutto].push([label, dataPoint[measure]])
+
         dataSeries[label].push({
-          x: dataPoint.brutto,
+          x: brutto,
           y: dataPoint[measure],
           label,
         })
       })
   })
 
-  return Object.keys(dataSeries).map((key) => ({
-    label: key,
-    data: dataSeries[key],
-  }))
+  return {
+    dataSeries: Object.keys(dataSeries).map((key) => ({
+      label: key,
+      data: dataSeries[key],
+    })),
+    dataPoints,
+  }
 }
 
 export const Workspace = withDebug(function Workspace({ filters }) {
@@ -103,7 +114,7 @@ export const Workspace = withDebug(function Workspace({ filters }) {
     return <ErrorComponent error={error} onClick={errorClick} />
   }
 
-  const dataSeries = prepareData(filters, data)
+  const { dataSeries, dataPoints } = prepareData(filters, data)
 
-  return <Diagram dataSeries={dataSeries} />
+  return <Diagram dataSeries={dataSeries} dataPoints={dataPoints} />
 })
