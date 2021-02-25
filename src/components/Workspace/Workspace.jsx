@@ -41,7 +41,7 @@ const fetchData = async (queryKey) => {
   } = queryKey
 
   return await fetchSalaryData({
-    types: Object.keys(types).filter((key) => !!key),
+    types: Object.keys(types).filter((key) => !!types[key]),
     from,
     to,
   })
@@ -116,5 +116,11 @@ export const Workspace = withDebug(function Workspace({ filters }) {
 
   const { dataSeries, dataPoints } = prepareData(filters, data)
 
-  return <Diagram dataSeries={dataSeries} dataPoints={dataPoints} />
+  return (
+    <Diagram
+      filters={filters}
+      dataSeries={dataSeries}
+      dataPoints={dataPoints}
+    />
+  )
 })

@@ -13,24 +13,19 @@ import { scaleOrdinal } from '@vx/scale'
 
 import { WorkspaceSizeContext } from '../../contexts/WorkspaceSizeContext'
 
-const colors = [
+const DOMAIN_OFFSET = 500
+
+const COLORS = [
   '#c92a2a',
-  '#a61e4d',
   '#862e9c',
   '#5f3dc4',
   '#364fc7',
-  '#1862ab',
-  '#0b7285',
-  '#087f5b',
   '#2b8a3e',
   '#5c940d',
   '#e67700',
   '#d9480f',
   '#69d2e7',
-  '#a7dbd8',
-  '#e0e4cc',
   '#f38630',
-  '#fa6900',
   '#f215b7',
   '#db6991',
   '#cfb5fc',
@@ -43,12 +38,9 @@ const colors = [
   '#f4bcab',
   '#eabb10',
   '#d4f473',
-  '#8fe6e8',
-  '#19b739',
-  '#0875af',
 ]
 
-const getColor = (index) => colors[index]
+const getColor = (index) => COLORS[index]
 
 const renderTooltip = (dataPoints, { datum }) => {
   const dataPoint = dataPoints[datum.x]
@@ -58,8 +50,6 @@ const renderTooltip = (dataPoints, { datum }) => {
       <div>
         <strong>Gross: {datum.x}</strong>
       </div>
-
-      {}
 
       {dataPoint.map(([label, currentValue], index) => {
         const color = getColor(index)
@@ -84,7 +74,7 @@ const renderTooltip = (dataPoints, { datum }) => {
   )
 }
 
-export const Diagram = ({ dataSeries, dataPoints }) => {
+export const Diagram = ({ filters, dataSeries, dataPoints }) => {
   const { width, height } = useContext(WorkspaceSizeContext)
 
   const legendScale = scaleOrdinal({
@@ -98,6 +88,14 @@ export const Diagram = ({ dataSeries, dataPoints }) => {
     }),
     domain: dataSeries.map((d) => d.label),
   })
+
+  const yDomain = [
+    Math.min(...dataPoints[filters.from].map(([_, val]) => val)) -
+      DOMAIN_OFFSET,
+    Math.max(...dataPoints[filters.to].map(([_, val]) => val)) + DOMAIN_OFFSET,
+  ]
+
+  const xDomain = [filters.from - DOMAIN_OFFSET, filters.to + DOMAIN_OFFSET]
 
   return (
     <>
@@ -115,8 +113,11 @@ export const Diagram = ({ dataSeries, dataPoints }) => {
             tooltipData={tooltipData}
             width={width}
             height={0.75 * height}
-            xScale={{ type: 'linear' }}
-            yScale={{ type: 'linear' }}>
+            xScale={{
+              type: 'linear',
+              domain: xDomain,
+            }}
+            yScale={{ type: 'linear', domain: yDomain }}>
             <XAxis label="Gross" numTicks={10} />
             <YAxis label="Net" orientation="left" numTicks={6} />
             {dataSeries.map(({ label, data }, index) => {
@@ -127,7 +128,7 @@ export const Diagram = ({ dataSeries, dataPoints }) => {
                   key={label}
                   data={data}
                   seriesKey={label}
-                  strokeWidth={2}
+                  strokeWidth={3}
                   stroke={color}
                 />
               )
@@ -166,13 +167,12 @@ export const Diagram = ({ dataSeries, dataPoints }) => {
 
       <LegendOrdinal scale={legendScale}>
         {(labels) => (
-          <div
-            style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+          <div className="diagram--legend">
             {labels.map((label, i) => (
               <LegendItem
                 key={`legend-${i}`}
                 margin="0 5px"
-                style={{ width: '230px', display: 'flex' }}>
+                className="diagram--legendItem">
                 <svg width={15} height={15}>
                   <rect fill={label.value.stroke} width={15} height={15} />
                 </svg>

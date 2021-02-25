@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
+import debounce from 'lodash.debounce'
+
 import './App.scss'
 
 import { Filters } from './components/Filters/Filters'
@@ -11,6 +13,15 @@ import { SALARY_MAX, SALARY_MIN } from './config'
 import { withDebug } from './utils/withDebug'
 
 import { WorkspaceSizeContext } from './contexts/WorkspaceSizeContext'
+
+const getWorkspaceSize = () => {
+  const workspace = document.getElementById('Workspace')
+
+  return {
+    width: workspace.offsetWidth - 50,
+    height: workspace.offsetHeight,
+  }
+}
 
 export const App = withDebug(function App() {
   const [filters, setFilters] = useState({
@@ -44,31 +55,23 @@ export const App = withDebug(function App() {
   }, [isSidebarVisible])
 
   useEffect(() => {
-    const getSize = () => {
-      const workspace = document.getElementById('Workspace')
+    setSize(getWorkspaceSize())
+  }, [isSidebarVisible, isMobile])
 
-      return {
-        width: workspace.offsetWidth,
-        height: workspace.offsetHeight,
-      }
-    }
-    const resizeHandler = () => {
+  useEffect(() => {
+    const resizeHandler = debounce(() => {
       const isMobileWidth = window.innerWidth <= 640
 
       if (isMobile !== isMobileWidth) {
         setMobile(isMobileWidth)
       }
 
-      console.log('resize', getSize())
+      setSize(getWorkspaceSize())
+    }, 400)
 
-      setSize(getSize())
-    }
+    window.addEventListener('resize', resizeHandler)
 
-    setSize(getSize())
-
-    document.addEventListener('resize', resizeHandler)
-
-    return () => document.removeEventListener('click', resizeHandler)
+    return () => window.removeEventListener('resize', resizeHandler)
   }, [])
 
   return (

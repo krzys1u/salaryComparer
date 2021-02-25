@@ -6,13 +6,13 @@ import { CheckboxGroup } from '../CheckboxGroup/CheckboxGroup'
 import { withDebug } from '../../utils/withDebug'
 import { FilterInputs } from '../FilterInputs/FilterInputs'
 
-import { SALARY_MIN, SALARY_MAX, SALARY_STEP } from '../../config'
+import { SALARY_MIN, SALARY_MAX, SALARY_SLIDER_STEP } from '../../config'
 
 import { EMPLOYMENT_TYPES, MEASURES } from '../../const'
 
 const MIN_SLIDER = SALARY_MIN
 const MAX_SLIDER = SALARY_MAX
-const STEP = SALARY_STEP
+const STEP = SALARY_SLIDER_STEP
 
 export const Filters = withDebug(function Filters(props) {
   const { submitAction, values } = props
@@ -83,7 +83,7 @@ export const Filters = withDebug(function Filters(props) {
     update: updateRanges,
     min: MIN_SLIDER,
     max: MAX_SLIDER,
-    step: STEP,
+    step: SALARY_SLIDER_STEP,
     from: state.from,
     to: state.to,
   }

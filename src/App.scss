@@ -239,5 +239,18 @@ body {
     @media (max-width: $break-small) {
       width: 100%;
     }
+
+    .diagram--legend {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .diagram--legendItem {
+      width: 230px;
+      display: flex;
+    }
+
+
   }
 }
