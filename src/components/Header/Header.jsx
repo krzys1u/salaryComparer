@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
 import { useQuery } from 'react-query'
-import { GitHubRibbon } from '../GitHubRibbon/GitHubRibbon'
 import { withDebug } from '../../utils/withDebug'
 import { API_URL } from '../../config'
+
+import { GitHub } from '@material-ui/icons'
+import { ThemeSwitcher } from '../ThemeSwitcher/ThemeSwitcher'
 
 const dateToString = (timestamp) => {
   const date = new Date(timestamp)
@@ -54,7 +56,15 @@ export const Header = withDebug(function Header(props) {
           Data generated at {data ?? ''}
         </div>
       </div>
-      <GitHubRibbon repository={'https://github.com/krzys1u/salaryComparer'} />
+      <div className="header__controls">
+        <ThemeSwitcher />
+        <a
+          href="https://github.com/krzys1u/salaryComparer"
+          className="github__button"
+          title="Contribute me">
+          <GitHub />
+        </a>
+      </div>
     </header>
   )
 })

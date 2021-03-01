@@ -13,12 +13,13 @@ import { SALARY_MAX, SALARY_MIN } from './config'
 import { withDebug } from './utils/withDebug'
 
 import { WorkspaceSizeContext } from './contexts/WorkspaceSizeContext'
+import { useTheme } from './contexts/ThemeContext'
 
 const getWorkspaceSize = () => {
   const workspace = document.getElementById('Workspace')
 
   return {
-    width: workspace.offsetWidth - 50,
+    width: workspace.offsetWidth - 25,
     height: workspace.offsetHeight,
   }
 }
@@ -34,6 +35,8 @@ export const App = withDebug(function App() {
   const [isMobile, setMobile] = useState(window.innerWidth <= 640)
   const [size, setSize] = useState({})
   const [isSidebarVisible, setSidebarVisible] = useState(true)
+
+  const { theme } = useTheme()
 
   const hideSidebarOnMobileAfterSubmit = useCallback(() => {
     if (isMobile) {
@@ -75,7 +78,7 @@ export const App = withDebug(function App() {
   }, [])
 
   return (
-    <div className="App">
+    <div className="App" data-theme={theme}>
       <Loader />
       <Header toogleSidebar={toogleSidebar} />
       <section className={'content'}>

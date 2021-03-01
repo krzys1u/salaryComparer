@@ -1,17 +1,17 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import {
   WithTooltip,
   LineSeries,
   CrossHair,
   XAxis,
   YAxis,
-  Brush,
   XYChart,
 } from '@data-ui/xy-chart'
 import { LegendOrdinal, LegendItem, LegendLabel } from '@vx/legend'
 import { scaleOrdinal } from '@vx/scale'
 
-import { WorkspaceSizeContext } from '../../contexts/WorkspaceSizeContext'
+import { useWorkspaceSize } from '../../contexts/WorkspaceSizeContext'
+import { useTheme } from '../../contexts/ThemeContext'
 
 const DOMAIN_OFFSET = 500
 
@@ -39,6 +39,9 @@ const COLORS = [
   '#eabb10',
   '#d4f473',
 ]
+
+const LIGHT_AXIS = 'black'
+const DARK_AXIS = '#e8eef4'
 
 const getColor = (index) => COLORS[index]
 
@@ -75,7 +78,11 @@ const renderTooltip = (dataPoints, { datum }) => {
 }
 
 export const Diagram = ({ filters, dataSeries, dataPoints }) => {
-  const { width, height } = useContext(WorkspaceSizeContext)
+  const { width, height } = useWorkspaceSize()
+
+  const { isLight } = useTheme()
+
+  const axisColor = { stroke: isLight ? LIGHT_AXIS : DARK_AXIS }
 
   const legendScale = scaleOrdinal({
     range: dataSeries.map((_, index) => {
@@ -118,8 +125,18 @@ export const Diagram = ({ filters, dataSeries, dataPoints }) => {
               domain: xDomain,
             }}
             yScale={{ type: 'linear', domain: yDomain }}>
-            <XAxis label="Gross" numTicks={10} />
-            <YAxis label="Net" orientation="left" numTicks={6} />
+            <XAxis
+              label="Gross"
+              numTicks={10}
+              axisStyles={axisColor}
+              tickStyles={axisColor}
+            />
+            <YAxis
+              orientation="left"
+              numTicks={6}
+              axisStyles={axisColor}
+              tickStyles={axisColor}
+            />
             {dataSeries.map(({ label, data }, index) => {
               const color = getColor(index)
 
@@ -160,19 +177,18 @@ export const Diagram = ({ filters, dataSeries, dataPoints }) => {
               showCircle={true}
               showMultipleCircles={true}
             />
-            <Brush disableDraggingSelection />
           </XYChart>
         )}
       </WithTooltip>
 
       <LegendOrdinal scale={legendScale}>
         {(labels) => (
-          <div className="diagram--legend">
+          <div className="diagram__legend">
             {labels.map((label, i) => (
               <LegendItem
                 key={`legend-${i}`}
                 margin="0 5px"
-                className="diagram--legendItem">
+                className="diagram__legendItem">
                 <svg width={15} height={15}>
                   <rect fill={label.value.stroke} width={15} height={15} />
                 </svg>

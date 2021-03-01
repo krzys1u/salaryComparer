@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 
 import { App } from './App'
+import { withTheme } from './contexts/ThemeContext'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,16 +15,17 @@ const queryClient = new QueryClient({
   },
 })
 
+const ThemedApp = withTheme(App)
+
 function ApplicationWithQueryProvider() {
   return (
     <QueryClientProvider client={queryClient}>
-      <App />
+      <ThemedApp />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )
 }
 
-ReactDOM.render(
-  <ApplicationWithQueryProvider />,
-  document.getElementById('root'),
-)
+const appRootElement = document.getElementById('root')
+
+ReactDOM.render(<ApplicationWithQueryProvider />, appRootElement)
