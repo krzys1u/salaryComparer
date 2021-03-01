@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/salaryComparer/static/css/main.00318065.chunk.css",
-    "main.js": "/salaryComparer/static/js/main.1f4e3ab8.chunk.js",
-    "main.js.map": "/salaryComparer/static/js/main.1f4e3ab8.chunk.js.map",
+    "main.css": "/salaryComparer/static/css/main.cfc595e3.chunk.css",
+    "main.js": "/salaryComparer/static/js/main.75f339b0.chunk.js",
+    "main.js.map": "/salaryComparer/static/js/main.75f339b0.chunk.js.map",
     "runtime-main.js": "/salaryComparer/static/js/runtime-main.5dc2b255.js",
     "runtime-main.js.map": "/salaryComparer/static/js/runtime-main.5dc2b255.js.map",
-    "static/js/2.013d31df.chunk.js": "/salaryComparer/static/js/2.013d31df.chunk.js",
-    "static/js/2.013d31df.chunk.js.map": "/salaryComparer/static/js/2.013d31df.chunk.js.map",
+    "static/js/2.81c12807.chunk.js": "/salaryComparer/static/js/2.81c12807.chunk.js",
+    "static/js/2.81c12807.chunk.js.map": "/salaryComparer/static/js/2.81c12807.chunk.js.map",
     "index.html": "/salaryComparer/index.html",
-    "static/css/main.00318065.chunk.css.map": "/salaryComparer/static/css/main.00318065.chunk.css.map",
-    "static/js/2.013d31df.chunk.js.LICENSE.txt": "/salaryComparer/static/js/2.013d31df.chunk.js.LICENSE.txt"
+    "static/css/main.cfc595e3.chunk.css.map": "/salaryComparer/static/css/main.cfc595e3.chunk.css.map",
+    "static/js/2.81c12807.chunk.js.LICENSE.txt": "/salaryComparer/static/js/2.81c12807.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.5dc2b255.js",
-    "static/js/2.013d31df.chunk.js",
-    "static/css/main.00318065.chunk.css",
-    "static/js/main.1f4e3ab8.chunk.js"
+    "static/js/2.81c12807.chunk.js",
+    "static/css/main.cfc595e3.chunk.css",
+    "static/js/main.75f339b0.chunk.js"
   ]
 }
