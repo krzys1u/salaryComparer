@@ -4,14 +4,48 @@ const fetchData = require('./fetchData')
 const { createFirebaseService } = require('../src/services/FirebaseService')
 const { FIREBASE_URL } = require('../src/config')
 
-admin.initializeApp({
-  credential: admin.credential.cert(require('../authKey.json')),
-  databaseURL: FIREBASE_URL,
-})
+const DB_USE = 'firebase'
 
-const db = admin.firestore()
+const firebaseDB = {
+  init: function () {
+    if (!this.firebase) {
+      admin.initializeApp({
+        credential: admin.credential.cert(require('../authKey.json')),
+        databaseURL: FIREBASE_URL,
+      })
 
-const firebase = createFirebaseService(db)
+      const db = admin.firestore()
+
+      this.firebase = createFirebaseService(db)
+    }
+  },
+  getCurrentVersion: async function () {
+    const versionData = await this.firebase.get({
+      collection: 'meta',
+      document: 'version',
+    })
+
+    return versionData.version
+  },
+  saveRecord: async function (collection, key, record) {
+    await this.firebase.set({ collection, key, record })
+  },
+  saveMetadata: async function (metadata) {
+    return this.saveRecord('meta', 'version', metadata)
+  },
+  startTransaction: async () => {},
+  commitTransaction: async () => {},
+  rollbackTransaction: async () => {},
+}
+
+const DATABASES = {
+  postgres: '',
+  firebase: firebaseDB,
+}
+
+const database = DATABASES[DB_USE]
+
+database.init()
 
 const createVersionData = (version, created) => ({
   version,
@@ -22,23 +56,10 @@ const getCollectionName = (version) => `salary-data-${version}`
 
 const getRecordId = (record) => `${record.brutto}-${record.type}`
 
-const saveRecord = async (collection, key, record) => {
-  await firebase.set({ collection, key, record })
-}
-
-const getCurrentVersion = async () => {
-  const versionData = await firebase.get({
-    collection: 'meta',
-    document: 'version',
-  })
-
-  return versionData.version
-}
-
 const saveData = async (collectionName, data) => {
   return Promise.all(
     data.map((entry) => {
-      return saveRecord(collectionName, getRecordId(entry), entry)
+      return database.saveRecord(collectionName, getRecordId(entry), entry)
     }),
   )
 }
@@ -46,39 +67,33 @@ const saveData = async (collectionName, data) => {
 const updateVersion = (version) => {
   const versionData = createVersionData(version, new Date().getTime())
 
-  return saveRecord('meta', 'version', versionData)
+  return database.saveMetadata(versionData)
 }
 
 const createNewVersion = async (data) => {
-  const version = await getCurrentVersion()
+  const version = await database.getCurrentVersion()
   const nextVersion = version + 1
 
   const collectionName = getCollectionName(nextVersion)
 
   try {
+    await database.startTransaction()
+
     await saveData(collectionName, data)
     await updateVersion(nextVersion)
 
+    await database.commitTransaction()
+
     console.info('New data has been saved')
   } catch (e) {
+    await database.rollbackTransaction()
+
     console.error('Error during saving data', e)
   }
 }
 
 ;(async () => {
   const data = await fetchData()
-
-  // const documents = {}
-  //
-  // data.forEach((entry) => {
-  //   const { type } = entry
-  //
-  //   if (!documents[type]) {
-  //     documents[type] = []
-  //   }
-  //
-  //   documents[type].push(entry)
-  // })
 
   await createNewVersion(data)
 })()
