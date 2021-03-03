@@ -47,8 +47,8 @@ module.exports = (db) => {
     const data = await db
       .select()
       .table('salaries')
-      .where('gross', '>= ', parseInt(from))
-      .andWhere('gross', '<= ', parseInt(to))
+      .where('gross', '> ', parseInt(from) - 1)
+      .andWhere('gross', '< ', parseInt(to) + 1)
       .andWhere((builder) => builder.whereIn('type', prepareTypes(types)))
       .andWhere('version', version)
 
