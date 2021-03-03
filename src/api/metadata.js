@@ -1,17 +1,31 @@
-const {
-  createFirebaseService,
-  initializeFirestore,
-} = require('../services/FirebaseService')
+// const {
+//   createFirebaseService,
+//   initializeFirestore,
+// } = require('../services/FirebaseService')
+//
+// const firebaseService = createFirebaseService(initializeFirestore())
+//
+// const collection = 'meta'
+// const document = 'version'
 
-const firebaseService = createFirebaseService(initializeFirestore())
+module.exports = (db, DB) => {
+  return async (req, res) => {
+    const versionData = await db
+      .select()
+      .table('metadata')
+      .where('key', 'version')
+      .orWhere('key', 'created')
 
-const collection = 'meta'
-const document = 'version'
+    if (!Array.isArray(versionData) || !versionData.length) {
+      return res.json({ err: 'No version specified' })
+    }
 
-module.exports = async (req, res) => {
-  const version = await firebaseService.get({ collection, document })
+    Object.fromEntries(versionData.map(({ key, value }) => [key, value]))
 
-  res.json({
-    ...version,
-  })
+    // const version = await firebaseService.get({ collection, document })
+
+    res.json({
+      ...Object.fromEntries(versionData.map(({ key, value }) => [key, value])),
+    })
+  }
 }

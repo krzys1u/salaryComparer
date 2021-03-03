@@ -1,15 +1,28 @@
 # Salario
+
+[[Application URL](https://krzys1u.github.io/salaryComparer/)]
+
 Purposes of this project is to show differences between various types of employment in Poland.
 
 You can compare between:
 
-- UoP
-- UoP with Creative Rights
-- B2B with 19% tax and Various ZUS
+- CoE
+- CoE with Creative Rights
+- B2B with line tax and Various ZUS
  
+## Setup database
+You need to copy file `example.env`, name it `.env` and set postgres database credential in it.
+After that you need to run `yarn run db:migrate` 
+  
+## Application configuration
+Configuration file is `src/config.js`
+
 ## Preparing data
-You need to download credentials file from firebase, set name to `authKey.json` and put it in root directory. 
-After that you can run `yarn run data:prepare`
+Run `yarn run data:prepare` to fetch fresh data and put it into database
+
+## API
+Functions from `api` directory are deployed as function in vercel, if you forked this repository you need to integrate your repository with vercel
+After that you need specify `API_URL` in `src/config.js` 
 
 ## Development
 Run 
@@ -19,7 +32,5 @@ yarn start
 ```
 
 ## Deployment
-After merge changes to master, version will be bumped and tag will be created, 
-after tag creation new version of page will be published as static page in github pages.
-If you don't specify versionType in commit message or pull request name minor version will be bumped up.
-
+After merge changes to master new version of page will be published as static page in github pages.
+Api functions will be deployed to vercel

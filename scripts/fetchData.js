@@ -30,7 +30,7 @@ const printReport = () => {
 const round = (number) => Math.round(number * 100 + Number.EPSILON) / 100
 
 const parseSalaryData = (salaryData, creativeRightsValue) => ({
-  brutto: salaryData.koszty[0].kwota_brutto,
+  gross: salaryData.koszty[0].kwota_brutto,
   nettoMin: salaryData.koszty.sort(
     (first, second) => first.kwota_netto - second.kwota_netto,
   )[0].kwota_netto,
@@ -47,7 +47,7 @@ const parseSalaryData = (salaryData, creativeRightsValue) => ({
 })
 
 const prepareB2bData = (brutto, zus) => ({
-  brutto,
+  gross: brutto,
   nettoMin: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
   nettoMax: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
   nettoAvg: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
