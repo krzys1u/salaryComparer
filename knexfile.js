@@ -23,7 +23,9 @@ const DB = {
   },
 }
 
+console.info('DB', DB)
+
 module.exports = {
   production: DB,
-  getKnex: () => [knex(DB), DB],
+  getKnex: () => knex(DB),
 }

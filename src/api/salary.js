@@ -52,6 +52,8 @@ module.exports = (db) => {
       .andWhere((builder) => builder.whereIn('type', prepareTypes(types)))
       .andWhere('version', version)
 
+    console.log('data', data)
+
     // const { version } = await firebaseService.get({
     //   collection: 'meta',
     //   document: 'version',
