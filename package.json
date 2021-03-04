@@ -42,7 +42,7 @@
     "data:prepare": "node scripts/saveData.js",
     "db:migrate": "knex migrate:latest --env production"
   },
-  "homepage": "https://krzys1u.github.io/salaryComparer",
+  "homepage": "https://krzys1u.github.io/salario",
   "browserslist": {
     "production": [
       ">0.2%",
