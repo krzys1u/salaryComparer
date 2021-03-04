@@ -4,7 +4,7 @@
 // } = require('../services/FirebaseService')
 //
 // const firebaseService = createFirebaseService(initializeFirestore())
-//
+
 // const collection = 'meta'
 // const document = 'version'
 
