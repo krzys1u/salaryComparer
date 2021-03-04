@@ -1,0 +1,51 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        path { stroke: #3f51b5; }
+        @media (prefers-color-scheme: dark) {
+        path { fill: #58a6ff; }
+        }
+    </style>
+    <rect x="0" y="0" width="300" height="100" fill="none" stroke-width="1" />
+
+    <g>
+        <g>
+            <g>
+                <g>
+                    <path
+                            stroke-miterlimit="10"
+                            stroke-linejoin="round"
+                            stroke-linecap="round"
+                            stroke-width="8"
+                            stroke="#3f51b5"
+                            fill="none"
+                            d="M71.172 23.77H36.885c-7.243 0-13.115 5.872-13.115 13.115v0C23.77 44.128 29.642 50 36.885 50h26.23c7.243 0 13.115 5.872 13.115 13.115v0c0 7.243-5.872 13.115-13.115 13.115H23.77"
+                           ></path>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <path
+                            d="M41.631 10v80"
+                            stroke-miterlimit="10"
+                            stroke-linejoin="round"
+                            stroke-linecap="round"
+                            stroke-width="8"
+                            stroke="#3f51b5"
+                            fill="none"></path>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <path
+                            stroke="#3f51b5"
+                            d="M56.746 10v80"
+                            stroke-miterlimit="10"
+                            stroke-linejoin="round"
+                            stroke-linecap="round"
+                            stroke-width="8"
+                            fill="none"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
