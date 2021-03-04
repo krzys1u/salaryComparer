@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/salaryComparer/static/css/main.9f783f88.chunk.css",
-    "main.js": "/salaryComparer/static/js/main.2ad042a1.chunk.js",
-    "main.js.map": "/salaryComparer/static/js/main.2ad042a1.chunk.js.map",
-    "runtime-main.js": "/salaryComparer/static/js/runtime-main.5dc2b255.js",
-    "runtime-main.js.map": "/salaryComparer/static/js/runtime-main.5dc2b255.js.map",
-    "static/js/2.d6dbc50b.chunk.js": "/salaryComparer/static/js/2.d6dbc50b.chunk.js",
-    "static/js/2.d6dbc50b.chunk.js.map": "/salaryComparer/static/js/2.d6dbc50b.chunk.js.map",
-    "index.html": "/salaryComparer/index.html",
-    "static/css/main.9f783f88.chunk.css.map": "/salaryComparer/static/css/main.9f783f88.chunk.css.map",
-    "static/js/2.d6dbc50b.chunk.js.LICENSE.txt": "/salaryComparer/static/js/2.d6dbc50b.chunk.js.LICENSE.txt"
+    "main.css": "/salario/static/css/main.9f783f88.chunk.css",
+    "main.js": "/salario/static/js/main.2ad042a1.chunk.js",
+    "main.js.map": "/salario/static/js/main.2ad042a1.chunk.js.map",
+    "runtime-main.js": "/salario/static/js/runtime-main.b87bbd88.js",
+    "runtime-main.js.map": "/salario/static/js/runtime-main.b87bbd88.js.map",
+    "static/js/2.d6dbc50b.chunk.js": "/salario/static/js/2.d6dbc50b.chunk.js",
+    "static/js/2.d6dbc50b.chunk.js.map": "/salario/static/js/2.d6dbc50b.chunk.js.map",
+    "index.html": "/salario/index.html",
+    "static/css/main.9f783f88.chunk.css.map": "/salario/static/css/main.9f783f88.chunk.css.map",
+    "static/js/2.d6dbc50b.chunk.js.LICENSE.txt": "/salario/static/js/2.d6dbc50b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.5dc2b255.js",
+    "static/js/runtime-main.b87bbd88.js",
     "static/js/2.d6dbc50b.chunk.js",
     "static/css/main.9f783f88.chunk.css",
     "static/js/main.2ad042a1.chunk.js"
