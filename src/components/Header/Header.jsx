@@ -7,7 +7,7 @@ import { GitHub } from '@material-ui/icons'
 import { ThemeSwitcher } from '../ThemeSwitcher/ThemeSwitcher'
 
 const dateToString = (timestamp) => {
-  const date = new Date(timestamp)
+  const date = new Date(parseInt(timestamp))
 
   return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
 }

@@ -104,6 +104,8 @@ export const Diagram = ({ filters, dataSeries, dataPoints }) => {
 
   const xDomain = [filters.from - DOMAIN_OFFSET, filters.to + DOMAIN_OFFSET]
 
+  const xNumTicks = Math.min(Math.floor(width / 50), 10)
+
   return (
     <>
       <WithTooltip renderTooltip={renderTooltip.bind(null, dataPoints)}>
@@ -127,7 +129,7 @@ export const Diagram = ({ filters, dataSeries, dataPoints }) => {
             yScale={{ type: 'linear', domain: yDomain }}>
             <XAxis
               label="Gross"
-              numTicks={10}
+              numTicks={xNumTicks}
               axisStyles={axisColor}
               tickStyles={axisColor}
             />

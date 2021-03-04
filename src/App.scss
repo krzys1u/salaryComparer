@@ -276,7 +276,7 @@ body {
 
 .content {
   display: flex;
-  height: 100%;
+  height: calc(100% - 60px);
   background-color: var(--bg-color);
 
   .sidebar {
@@ -371,7 +371,6 @@ body {
     transition: all 0.3s ease;
 
     @media screen and (max-width: 768px) {
-      line-height: 22px;
       left: 1px;
     }
   }

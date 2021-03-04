@@ -27,6 +27,10 @@ export const loadTheme = () => {
   return LIGHT
 }
 
+const sendTracking = (theme) => {
+  window.dataLayer.push({ event: 'theme-changed', theme })
+}
+
 export const ThemeContext = React.createContext({
   light: loadTheme(),
   toggle: () => {},
@@ -55,6 +59,8 @@ export const withTheme = (Component) => {
           toggle: () => {
             saveTheme(light ? DARK : LIGHT)
             setLight(!light)
+
+            sendTracking(light ? DARK : LIGHT)
           },
         }}>
         <Component {...props} />

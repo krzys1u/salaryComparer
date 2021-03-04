@@ -24,6 +24,10 @@ const getWorkspaceSize = () => {
   }
 }
 
+const sendTracking = (filters) => {
+  window.dataLayer.push({ event: 'formSubmit', ...filters })
+}
+
 export const App = withDebug(function App() {
   const [filters, setFilters] = useState({
     types: { 'uop-0': true },
@@ -49,6 +53,8 @@ export const App = withDebug(function App() {
       hideSidebarOnMobileAfterSubmit()
 
       setFilters(filters)
+
+      sendTracking(filters)
     },
     [setFilters, hideSidebarOnMobileAfterSubmit],
   )
