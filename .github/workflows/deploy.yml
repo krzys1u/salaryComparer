@@ -31,4 +31,4 @@ jobs:
         yarn install --frozen-lockfile
         yarn run build
 
-        yarn deploy --user='Krzysztof Stozek <stozekrzysztof@gmail.com>' --repo=https://$TOKEN@github.com/krzys1u/salaryComparer.git
+        yarn deploy --user='Krzysztof Stozek <stozekrzysztof@gmail.com>' --repo=https://$TOKEN@github.com/krzys1u/salario.git

@@ -1,6 +1,6 @@
 # Salario
 
-[[Application URL](https://krzys1u.github.io/salaryComparer/)]
+[[Application URL](https://krzys1u.github.io/salario/)]
 
 Purposes of this project is to show differences between various types of employment in Poland.
 
