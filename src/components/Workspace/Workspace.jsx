@@ -57,12 +57,22 @@ const prepareData = ({ types, measures }, data) => {
   const getDataPointLabel = (measure, type) =>
     `${getLabel(MEASURES, measure)} (${getLabel(EMPLOYMENT_TYPES, type)})`
 
+  const range = []
+
   data.forEach((dataPoint) => {
     Object.keys(measures)
       .filter((key) => !!measures[key])
       .forEach((measure) => {
         const { type, brutto } = dataPoint
         const label = getDataPointLabel(measure, type)
+
+        if (!range[0] || brutto < range[0]) {
+          range[0] = brutto
+        }
+
+        if (!range[1] || brutto > range[1]) {
+          range[1] = brutto
+        }
 
         if (!dataSeries[label]) {
           dataSeries[label] = []
@@ -88,6 +98,7 @@ const prepareData = ({ types, measures }, data) => {
       data: dataSeries[key],
     })),
     dataPoints,
+    range,
   }
 }
 
@@ -114,13 +125,14 @@ export const Workspace = withDebug(function Workspace({ filters }) {
     return <ErrorComponent error={error} onClick={errorClick} />
   }
 
-  const { dataSeries, dataPoints } = prepareData(filters, data)
+  const { dataSeries, dataPoints, range } = prepareData(filters, data)
 
   return (
     <Diagram
       filters={filters}
       dataSeries={dataSeries}
       dataPoints={dataPoints}
+      dataRange={range}
     />
   )
 })

@@ -27,15 +27,17 @@ export const Filters = withDebug(function Filters(props) {
   const [isSubmitEnabled, setSubmitEnabled] = useState(true)
 
   const updateRanges = useCallback(
-    (which, newVal) => {
+    (which, newVal, checkValues = true) => {
       const newState = { ...state, [which]: newVal }
 
-      if (newState.to < newState.from && which === 'from') {
-        newState.to = newState.from
-      }
+      if (checkValues) {
+        if (newState.to < newState.from && which === 'from') {
+          newState.to = newState.from
+        }
 
-      if (newState.from > newState.to && which === 'to') {
-        newState.from = newState.to
+        if (newState.from > newState.to && which === 'to') {
+          newState.from = newState.to
+        }
       }
 
       setState(newState)

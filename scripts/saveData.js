@@ -1,55 +1,7 @@
-const admin = require('firebase-admin')
-
 const fetchData = require('./fetchData')
 const { getKnex } = require('../knexfile')
-const { createFirebaseService } = require('../src/services/FirebaseService')
-const { FIREBASE_URL } = require('../src/config')
 
 const DB_USE = 'postgres'
-
-const firebaseDB = {
-  init: function () {
-    if (!this.firebase) {
-      admin.initializeApp({
-        credential: admin.credential.cert(require('../authKey.json')),
-        databaseURL: FIREBASE_URL,
-      })
-
-      const db = admin.firestore()
-
-      this.firebase = createFirebaseService(db)
-    }
-  },
-  getCurrentVersion: async function () {
-    const versionData = await this.firebase.get({
-      collection: 'meta',
-      document: 'version',
-    })
-
-    return versionData.version
-  },
-  saveData: async function (collectionName, data) {
-    return Promise.all(
-      data.map((entry) => {
-        return this.firebase.saveRecord(
-          collectionName,
-          getRecordId(entry),
-          entry,
-        )
-      }),
-    )
-  },
-  saveRecord: async function (collection, key, record) {
-    await this.firebase.set({ collection, key, record })
-  },
-  saveMetadata: async function (metadata) {
-    return this.saveRecord('meta', 'version', metadata)
-  },
-  withTransaction: async (fn) => {
-    await fn
-  },
-  exit: () => {},
-}
 
 const pgDB = {
   init: function () {
@@ -78,11 +30,11 @@ const pgDB = {
       this.db('metadata')
         .transacting(this.transaction)
         .where({ key: 'version' })
-        .update({ value: metadata.version }),
+        .update({ value: metadata.version, updated_at: this.db.fn.now() }),
       this.db('metadata')
         .transacting(this.transaction)
         .where({ key: 'created' })
-        .update({ value: metadata.created }),
+        .update({ value: metadata.created, updated_at: this.db.fn.now() }),
     ])
   },
   withTransaction: async function (fn) {
@@ -105,7 +57,6 @@ const pgDB = {
 
 const DATABASES = {
   postgres: pgDB,
-  firebase: firebaseDB,
 }
 
 const database = DATABASES[DB_USE]
@@ -114,10 +65,6 @@ const createVersionData = (version, created) => ({
   version,
   created,
 })
-
-// const getCollectionName = (version) => `salary-data-${version}`
-
-const getRecordId = (record) => `${record.brutto}-${record.type}`
 
 const updateVersion = (version) => {
   const versionData = createVersionData(version, new Date().getTime())
@@ -128,8 +75,6 @@ const updateVersion = (version) => {
 const createNewVersion = async (data) => {
   const version = await database.getCurrentVersion()
   const nextVersion = version + 1
-
-  //const collectionName = getCollectionName(nextVersion)
 
   try {
     await database.withTransaction(async () => {

@@ -18,17 +18,29 @@ export const FilterInputs = ({ update, min, max, step, from, to }) => {
   const handleInputChange = (kind, event) => {
     event.persist()
 
-    update(kind, event.target.value === '' ? '' : Number(event.target.value))
+    update(
+      kind,
+      event.target.value === '' ? min : Number(event.target.value),
+      false,
+    )
   }
 
-  const handleBlur = (kind) => {
-    const value = kind === 'from' ? from : to
+  const handleBlur = (kind, event) => {
+    event.persist()
 
-    if (value < min) {
-      update(kind, min)
-    } else if (value > max) {
-      update(kind, max)
+    const inputValue =
+      event.target.value === '' ? min : Number(event.target.value)
+    const valueToCheck = kind === 'from' ? from : to
+
+    if (valueToCheck < min) {
+      return update(kind, min)
     }
+
+    if (valueToCheck > max) {
+      return update(kind, max)
+    }
+
+    update(kind, inputValue)
   }
 
   return (

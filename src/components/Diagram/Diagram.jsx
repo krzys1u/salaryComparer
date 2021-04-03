@@ -77,7 +77,7 @@ const renderTooltip = (dataPoints, { datum }) => {
   )
 }
 
-export const Diagram = ({ filters, dataSeries, dataPoints }) => {
+export const Diagram = ({ filters, dataSeries, dataPoints, dataRange }) => {
   const { width, height } = useWorkspaceSize()
 
   const { isLight } = useTheme()
@@ -96,10 +96,13 @@ export const Diagram = ({ filters, dataSeries, dataPoints }) => {
     domain: dataSeries.map((d) => d.label),
   })
 
+  const [lowestDataPoint, highestDataPoint] = dataRange
+
   const yDomain = [
-    Math.min(...dataPoints[filters.from].map(([_, val]) => val)) -
+    Math.min(...dataPoints[lowestDataPoint].map(([_, val]) => val)) -
       DOMAIN_OFFSET,
-    Math.max(...dataPoints[filters.to].map(([_, val]) => val)) + DOMAIN_OFFSET,
+    Math.max(...dataPoints[highestDataPoint].map(([_, val]) => val)) +
+      DOMAIN_OFFSET,
   ]
 
   const xDomain = [filters.from - DOMAIN_OFFSET, filters.to + DOMAIN_OFFSET]

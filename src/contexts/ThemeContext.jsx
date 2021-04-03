@@ -8,7 +8,7 @@ const saveTheme = (theme) => {
   localStorage.setItem(THEME_NAMESPACE, theme)
 }
 
-export const loadTheme = () => {
+const loadTheme = () => {
   const browserPreferredTheme = !!(
     window.matchMedia &&
     window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -31,7 +31,7 @@ const sendTracking = (theme) => {
   window.dataLayer.push({ event: 'theme-changed', theme })
 }
 
-export const ThemeContext = React.createContext({
+const ThemeContext = React.createContext({
   light: loadTheme(),
   toggle: () => {},
 })

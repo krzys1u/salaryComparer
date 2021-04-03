@@ -9,8 +9,8 @@ const {
 
 const ENDPOINT = 'https://api.bankier.pl/calculators/salary/calculate/uop'
 
-const HIGH_ZUS = 1431.48
-const LOW_ZUS = 609.14
+const HIGH_ZUS = 1457.49
+const LOW_ZUS = 627.01
 const INCOME_TAX_PERCENTAGE = 0.19
 
 const BATCH_SIZE = 100

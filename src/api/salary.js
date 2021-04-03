@@ -1,31 +1,3 @@
-// const {
-//   createFirebaseService,
-//   initializeFirestore,
-// } = require('../services/FirebaseService')
-//
-// const firebaseService = createFirebaseService(initializeFirestore())
-
-//
-// const getVersionFromFirebase = async () => {
-//   const { version } = await firebaseService.get({
-//     collection: 'meta',
-//     document: 'version',
-//   })
-//
-//   return version
-// }
-//
-// const getFromFirebase = async (version, filters) => {
-//   const collection = `salary-data-${version}`
-//
-//   const data = await firebaseService.getWithFilters({
-//     collection,
-//     filters,
-//   })
-//
-//   return data
-// }
-
 const prepareTypes = (types) => {
   if (Array.isArray(types)) {
     return types
@@ -61,9 +33,6 @@ module.exports = (db) => {
       .andWhere('gross', '<', parseInt(to) + 1)
       .andWhere((builder) => builder.whereIn('type', prepareTypes(types)))
       .andWhere('version', version)
-
-    // const version = await getVersionFromFirebase()
-    // const data = await getFromFirebase(version, filters)
 
     return res.json({
       data: data.map(({ gross, nettoMin, nettoMax, nettoAvg, type }) => ({
