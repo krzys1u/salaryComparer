@@ -33,6 +33,7 @@ module.exports = (db) => {
       .andWhere('gross', '<', parseInt(to) + 1)
       .andWhere((builder) => builder.whereIn('type', prepareTypes(types)))
       .andWhere('version', version)
+      .orderBy('gross')
 
     return res.json({
       data: data.map(({ gross, nettoMin, nettoMax, nettoAvg, type }) => ({
