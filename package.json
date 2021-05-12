@@ -10,7 +10,7 @@
     "@material-ui/styles": "5.0.0-alpha.5",
     "@vx/legend": "^0.0.199",
     "@vx/scale": "^0.0.199",
-    "chart.js": "2.9.3",
+    "chart.js": "2.9.4",
     "dotenv": "^8.2.0",
     "firebase": "7.24.0",
     "firebase-admin": "9.4.2",
