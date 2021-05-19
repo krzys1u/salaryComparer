@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/salario/static/css/main.e2c00454.chunk.css",
-    "main.js": "/salario/static/js/main.27e5d7b1.chunk.js",
-    "main.js.map": "/salario/static/js/main.27e5d7b1.chunk.js.map",
+    "main.js": "/salario/static/js/main.69a8676c.chunk.js",
+    "main.js.map": "/salario/static/js/main.69a8676c.chunk.js.map",
     "runtime-main.js": "/salario/static/js/runtime-main.b87bbd88.js",
     "runtime-main.js.map": "/salario/static/js/runtime-main.b87bbd88.js.map",
     "static/js/2.ead22cc0.chunk.js": "/salario/static/js/2.ead22cc0.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.b87bbd88.js",
     "static/js/2.ead22cc0.chunk.js",
     "static/css/main.e2c00454.chunk.css",
-    "static/js/main.27e5d7b1.chunk.js"
+    "static/js/main.69a8676c.chunk.js"
   ]
 }
