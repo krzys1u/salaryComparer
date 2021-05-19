@@ -82,11 +82,13 @@ export const FilterInputs = ({ update, min, max, step, from, to }) => {
           />
         </Grid>
         <Grid item xs={5} className="filters__perHourValue">
-          {calculatePerHour(from)} per hour
+          {/*{calculatePerHour(from)} per hour*/}
+          {calculatePerHour(from)} na godzinę
         </Grid>
         <Grid item xs={2} />
         <Grid item xs={5} className="filters__perHourValue">
-          {calculatePerHour(to)} per hour
+          {/*{calculatePerHour(to)} per hour*/}
+          {calculatePerHour(to)} na godzinę
         </Grid>
       </Grid>
     </div>

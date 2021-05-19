@@ -9,12 +9,14 @@ export const Error = withDebug(function Error(props) {
 
   return (
     <MessageCard
-      label="Something went wrong..."
+      // label="Something went wrong..."
+      label="Coś poszło nie tak..."
       code={error.message}
       icon={<ErrorIcon />}
       button={
         <Button variant="outlined" color="primary" onClick={onClick}>
-          Try again
+          {/*Try again*/}
+          Ponów
         </Button>
       }
     />

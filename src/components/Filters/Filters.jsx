@@ -91,7 +91,8 @@ export const Filters = withDebug(function Filters(props) {
   }
 
   const employmentTypesProps = {
-    label: 'Choose types of employment',
+    //label: 'Choose types of employment',
+    label: 'Wybierz formę zatrudnienia',
     checkboxes: EMPLOYMENT_TYPES.map((config) => ({
       ...config,
       checked: state.types[config.name] || false,
@@ -100,7 +101,8 @@ export const Filters = withDebug(function Filters(props) {
   }
 
   const measuresProps = {
-    label: 'Choose measures',
+    //label: 'Choose measures',
+    label: 'Wybierz miarę',
     checkboxes: MEASURES.map((config) => ({
       ...config,
       checked: state.measures[config.name] || false,
@@ -118,7 +120,8 @@ export const Filters = withDebug(function Filters(props) {
   return (
     <div>
       <div>
-        <FormLabel component="legend">Choose gross ranges</FormLabel>
+        {/*<FormLabel component="legend">Choose gross ranges</FormLabel>*/}
+        <FormLabel component="legend">Wybierz zakres zarobków</FormLabel>
 
         <Slider
           value={[state.from, state.to]}
@@ -142,7 +145,8 @@ export const Filters = withDebug(function Filters(props) {
         color="primary"
         onClick={submit}
         disabled={!isSubmitEnabled}>
-        Compare
+        {/*Compare*/}
+        Porównaj
       </Button>
     </div>
   )

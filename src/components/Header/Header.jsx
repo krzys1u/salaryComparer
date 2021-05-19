@@ -53,7 +53,8 @@ export const Header = withDebug(function Header(props) {
           <h6 className={'appName'}>Salario</h6>
         </div>
         <div className={'dataGeneratedTime'}>
-          Data generated at {data ?? ''}
+          {/*Data generated at {data ?? ''}*/}
+          Dane wygenerowano {data ?? ''}
         </div>
       </div>
       <div className="header__controls">
