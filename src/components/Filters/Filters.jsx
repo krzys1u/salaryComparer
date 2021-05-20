@@ -9,6 +9,7 @@ import { FilterInputs } from '../FilterInputs/FilterInputs'
 import { SALARY_MIN, SALARY_MAX, SALARY_SLIDER_STEP } from '../../config'
 
 import { EMPLOYMENT_TYPES, MEASURES } from '../../const'
+import { useTranslation } from '../../contexts/LanguageContext'
 
 const MIN_SLIDER = SALARY_MIN
 const MAX_SLIDER = SALARY_MAX
@@ -16,6 +17,7 @@ const STEP = SALARY_SLIDER_STEP
 
 export const Filters = withDebug(function Filters(props) {
   const { submitAction, values } = props
+  const { translations, t } = useTranslation()
 
   const [state, setState] = useState({
     from: values.from,
@@ -91,20 +93,20 @@ export const Filters = withDebug(function Filters(props) {
   }
 
   const employmentTypesProps = {
-    //label: 'Choose types of employment',
-    label: 'Wybierz formę zatrudnienia',
+    label: translations.employmentTypeLabel,
     checkboxes: EMPLOYMENT_TYPES.map((config) => ({
       ...config,
+      label: t(config.label),
       checked: state.types[config.name] || false,
     })),
     update: updateTypes,
   }
 
   const measuresProps = {
-    //label: 'Choose measures',
-    label: 'Wybierz miarę',
+    label: translations.measuresLabel,
     checkboxes: MEASURES.map((config) => ({
       ...config,
+      label: t(config.label),
       checked: state.measures[config.name] || false,
     })),
     update: updateMeasures,
@@ -120,8 +122,9 @@ export const Filters = withDebug(function Filters(props) {
   return (
     <div>
       <div>
-        {/*<FormLabel component="legend">Choose gross ranges</FormLabel>*/}
-        <FormLabel component="legend">Wybierz zakres zarobków</FormLabel>
+        <FormLabel component="legend">
+          {translations.salaryRangesLabel}
+        </FormLabel>
 
         <Slider
           value={[state.from, state.to]}
@@ -145,8 +148,7 @@ export const Filters = withDebug(function Filters(props) {
         color="primary"
         onClick={submit}
         disabled={!isSubmitEnabled}>
-        {/*Compare*/}
-        Porównaj
+        {translations.submitButtonLabel}
       </Button>
     </div>
   )

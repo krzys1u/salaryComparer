@@ -12,6 +12,7 @@ import { scaleOrdinal } from '@vx/scale'
 
 import { useWorkspaceSize } from '../../contexts/WorkspaceSizeContext'
 import { useTheme } from '../../contexts/ThemeContext'
+import { useTranslation } from '../../contexts/LanguageContext'
 
 const DOMAIN_OFFSET = 500
 
@@ -45,13 +46,15 @@ const DARK_AXIS = '#e8eef4'
 
 const getColor = (index) => COLORS[index]
 
-const renderTooltip = (dataPoints, { datum }) => {
+const renderTooltip = (dataPoints, { translations, t }, { datum }) => {
   const dataPoint = dataPoints[datum.x]
 
   return (
     <div>
       <div>
-        <strong>Gross: {datum.x}</strong>
+        <strong>
+          {translations.grossLabel}: {datum.x}
+        </strong>
       </div>
 
       {dataPoint.map(([label, currentValue], index) => {
@@ -67,7 +70,7 @@ const renderTooltip = (dataPoints, { datum }) => {
                 textDecoration: isCurrent ? `underline solid ${color}` : null,
                 fontWeight: isCurrent ? 600 : 200,
               }}>
-              {`${label} `}
+              {t(label)}
             </span>
             {currentValue}
           </div>
@@ -81,6 +84,8 @@ export const Diagram = ({ filters, dataSeries, dataPoints, dataRange }) => {
   const { width, height } = useWorkspaceSize()
 
   const { isLight } = useTheme()
+
+  const { translations, t } = useTranslation()
 
   const axisColor = { stroke: isLight ? LIGHT_AXIS : DARK_AXIS }
 
@@ -111,7 +116,11 @@ export const Diagram = ({ filters, dataSeries, dataPoints, dataRange }) => {
 
   return (
     <>
-      <WithTooltip renderTooltip={renderTooltip.bind(null, dataPoints)}>
+      <WithTooltip
+        renderTooltip={renderTooltip.bind(null, dataPoints, {
+          translations,
+          t,
+        })}>
         {({ onMouseLeave, onMouseMove, tooltipData }) => (
           <XYChart
             ariaLabel="Salaries"
@@ -131,7 +140,7 @@ export const Diagram = ({ filters, dataSeries, dataPoints, dataRange }) => {
             }}
             yScale={{ type: 'linear', domain: yDomain }}>
             <XAxis
-              label="Gross"
+              label={translations.grossLabel}
               numTicks={xNumTicks}
               axisStyles={axisColor}
               tickStyles={axisColor}
@@ -198,7 +207,7 @@ export const Diagram = ({ filters, dataSeries, dataPoints, dataRange }) => {
                   <rect fill={label.value.stroke} width={15} height={15} />
                 </svg>
                 <LegendLabel align="left" margin="0 0 0 4px">
-                  {label.text}
+                  {t(label.text)}
                 </LegendLabel>
               </LegendItem>
             ))}

@@ -14,6 +14,7 @@ import { withDebug } from './utils/withDebug'
 
 import { WorkspaceSizeContext } from './contexts/WorkspaceSizeContext'
 import { useTheme } from './contexts/ThemeContext'
+import { LanguageSelector } from './components/LanguageSelector/LanguageSelector'
 
 const getWorkspaceSize = () => {
   const workspace = document.getElementById('Workspace')
@@ -91,6 +92,7 @@ export const App = withDebug(function App() {
         {isSidebarVisible && (
           <aside className={'sidebar'}>
             <Filters submitAction={filtersSubmitted} values={filters} />
+            <LanguageSelector />
           </aside>
         )}
         <section

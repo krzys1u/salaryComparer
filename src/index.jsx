@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 
 import { App } from './App'
 import { withTheme } from './contexts/ThemeContext'
+import { withTranslation } from './contexts/LanguageContext'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,12 +16,12 @@ const queryClient = new QueryClient({
   },
 })
 
-const ThemedApp = withTheme(App)
+const ThemedTranslatedApp = withTheme(withTranslation(App))
 
 function ApplicationWithQueryProvider() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemedApp />
+      <ThemedTranslatedApp />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )

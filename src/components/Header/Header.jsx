@@ -5,6 +5,7 @@ import { API_URL } from '../../config'
 
 import { GitHub } from '@material-ui/icons'
 import { ThemeSwitcher } from '../ThemeSwitcher/ThemeSwitcher'
+import { useTranslation } from '../../contexts/LanguageContext'
 
 const dateToString = (timestamp) => {
   const date = new Date(parseInt(timestamp))
@@ -24,6 +25,8 @@ const fetchMetaData = async () => {
 
 export const Header = withDebug(function Header(props) {
   const { toogleSidebar } = props
+
+  const { translations } = useTranslation()
 
   const [enabled, setEnabled] = React.useState(true)
 
@@ -53,8 +56,7 @@ export const Header = withDebug(function Header(props) {
           <h6 className={'appName'}>Salario</h6>
         </div>
         <div className={'dataGeneratedTime'}>
-          {/*Data generated at {data ?? ''}*/}
-          Dane wygenerowano {data ?? ''}
+          {translations.dataGeneratedLabel} {data ?? ''}
         </div>
       </div>
       <div className="header__controls">

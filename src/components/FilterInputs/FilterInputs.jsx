@@ -2,6 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Input from '@material-ui/core/Input'
+import { useTranslation } from '../../contexts/LanguageContext'
 
 const useStyles = makeStyles({
   root: {},
@@ -14,6 +15,7 @@ const calculatePerHour = (value) => Math.floor(value / 160)
 
 export const FilterInputs = ({ update, min, max, step, from, to }) => {
   const classes = useStyles()
+  const { translations } = useTranslation()
 
   const handleInputChange = (kind, event) => {
     event.persist()
@@ -82,13 +84,11 @@ export const FilterInputs = ({ update, min, max, step, from, to }) => {
           />
         </Grid>
         <Grid item xs={5} className="filters__perHourValue">
-          {/*{calculatePerHour(from)} per hour*/}
-          {calculatePerHour(from)} na godzinę
+          {calculatePerHour(from)} {translations.salaryPerHourLabel}
         </Grid>
         <Grid item xs={2} />
         <Grid item xs={5} className="filters__perHourValue">
-          {/*{calculatePerHour(to)} per hour*/}
-          {calculatePerHour(to)} na godzinę
+          {calculatePerHour(to)} {translations.salaryPerHourLabel}
         </Grid>
       </Grid>
     </div>

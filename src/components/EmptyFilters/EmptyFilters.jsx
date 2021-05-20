@@ -2,8 +2,15 @@ import React from 'react'
 import { withDebug } from '../../utils/withDebug'
 import { EmptyFiltersIcon } from './EmptyFiltersIcon'
 import { MessageCard } from '../MessageCard/MessageCard'
+import { useTranslation } from '../../contexts/LanguageContext'
 
 export const EmptyFilters = withDebug(function EmptyFilters() {
-  //return <MessageCard label="No filters selected" icon={<EmptyFiltersIcon />} />
-  return <MessageCard label="Nie wybrano filtrów" icon={<EmptyFiltersIcon />} />
+  const { translations } = useTranslation()
+
+  return (
+    <MessageCard
+      label={translations.noFiltersLabel}
+      icon={<EmptyFiltersIcon />}
+    />
+  )
 })
