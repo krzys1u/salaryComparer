@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/salario/static/css/main.e2c00454.chunk.css",
-    "main.js": "/salario/static/js/main.69a8676c.chunk.js",
-    "main.js.map": "/salario/static/js/main.69a8676c.chunk.js.map",
+    "main.css": "/salario/static/css/main.4645ef2a.chunk.css",
+    "main.js": "/salario/static/js/main.1fc93259.chunk.js",
+    "main.js.map": "/salario/static/js/main.1fc93259.chunk.js.map",
     "runtime-main.js": "/salario/static/js/runtime-main.b87bbd88.js",
     "runtime-main.js.map": "/salario/static/js/runtime-main.b87bbd88.js.map",
-    "static/js/2.ead22cc0.chunk.js": "/salario/static/js/2.ead22cc0.chunk.js",
-    "static/js/2.ead22cc0.chunk.js.map": "/salario/static/js/2.ead22cc0.chunk.js.map",
+    "static/js/2.178ebe55.chunk.js": "/salario/static/js/2.178ebe55.chunk.js",
+    "static/js/2.178ebe55.chunk.js.map": "/salario/static/js/2.178ebe55.chunk.js.map",
     "index.html": "/salario/index.html",
-    "static/css/main.e2c00454.chunk.css.map": "/salario/static/css/main.e2c00454.chunk.css.map",
-    "static/js/2.ead22cc0.chunk.js.LICENSE.txt": "/salario/static/js/2.ead22cc0.chunk.js.LICENSE.txt"
+    "static/css/main.4645ef2a.chunk.css.map": "/salario/static/css/main.4645ef2a.chunk.css.map",
+    "static/js/2.178ebe55.chunk.js.LICENSE.txt": "/salario/static/js/2.178ebe55.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.b87bbd88.js",
-    "static/js/2.ead22cc0.chunk.js",
-    "static/css/main.e2c00454.chunk.css",
-    "static/js/main.69a8676c.chunk.js"
+    "static/js/2.178ebe55.chunk.js",
+    "static/css/main.4645ef2a.chunk.css",
+    "static/js/main.1fc93259.chunk.js"
   ]
 }
