@@ -16,14 +16,14 @@ export const LanguageSelector = () => {
         }
 
         return (
-          <span
+          <div
             key={`lang-${lang}`}
             className={classNames.join(' ')}
             onClick={() => {
               changeLanguage(lang)
             }}>
-            <span>{LANGS[lang]}</span>
-          </span>
+            <div>{LANGS[lang]}</div>
+          </div>
         )
       })}
     </div>

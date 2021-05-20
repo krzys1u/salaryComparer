@@ -20,8 +20,8 @@ export const Filters = withDebug(function Filters(props) {
   const { translations, t } = useTranslation()
 
   const [state, setState] = useState({
-    from: values.from,
-    to: values.to,
+    from: values.from < MIN_SLIDER ? MIN_SLIDER : values.from,
+    to: values.to > MAX_SLIDER ? MAX_SLIDER : values.to,
     types: values.types,
     measures: values.measures,
   })
