@@ -63,29 +63,29 @@ const prepareData = ({ types, measures }, data) => {
     Object.keys(measures)
       .filter((key) => !!measures[key])
       .forEach((measure) => {
-        const { type, brutto } = dataPoint
+        const { type, gross } = dataPoint
         const label = getDataPointLabel(measure, type)
 
-        if (!range[0] || brutto < range[0]) {
-          range[0] = brutto
+        if (!range[0] || gross < range[0]) {
+          range[0] = gross
         }
 
-        if (!range[1] || brutto > range[1]) {
-          range[1] = brutto
+        if (!range[1] || gross > range[1]) {
+          range[1] = gross
         }
 
         if (!dataSeries[label]) {
           dataSeries[label] = []
         }
 
-        if (!dataPoints[brutto]) {
-          dataPoints[brutto] = []
+        if (!dataPoints[gross]) {
+          dataPoints[gross] = []
         }
 
-        dataPoints[brutto].push([label, dataPoint[measure]])
+        dataPoints[gross].push([label, dataPoint[measure]])
 
         dataSeries[label].push({
-          x: brutto,
+          x: gross,
           y: dataPoint[measure],
           label,
         })

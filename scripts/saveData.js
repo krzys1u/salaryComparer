@@ -97,11 +97,11 @@ const createNewVersion = async (data) => {
 }
 
 ;(async () => {
-  database.init()
+  //database.init()
 
   const data = await fetchData()
 
-  await createNewVersion(data)
+  //await createNewVersion(data)
 
-  database.exit()
+  //database.exit()
 })()

@@ -29,28 +29,42 @@ const printReport = () => {
 
 const round = (number) => Math.round(number * 100 + Number.EPSILON) / 100
 
+const getMin = (array, compareKey) =>
+  array.sort((first, second) => first[compareKey] - second[compareKey])[0][
+    compareKey
+  ]
+
+const getMax = (array, compareKey) =>
+  array.sort((first, second) => second[compareKey] - first[compareKey])[0][
+    compareKey
+  ]
+
+const getAvg = (array, key) =>
+  array.reduce((acc, monthData) => acc + monthData[key], 0) / array.length
+
 const parseSalaryData = (salaryData, creativeRightsValue) => ({
   gross: salaryData.koszty[0].kwota_brutto,
-  nettoMin: salaryData.koszty.sort(
-    (first, second) => first.kwota_netto - second.kwota_netto,
-  )[0].kwota_netto,
-  nettoMax: salaryData.koszty.sort(
-    (first, second) => second.kwota_netto - first.kwota_netto,
-  )[0].kwota_netto,
-  nettoAvg: round(
-    salaryData.koszty.reduce(
-      (acc, monthData) => acc + monthData.kwota_netto,
-      0,
-    ) / salaryData.koszty.length,
-  ),
+  nettoMin: getMin(salaryData.koszty, 'kwota_netto'),
+  nettoMax: getMax(salaryData.koszty, 'kwota_netto'),
+  nettoAvg: getAvg(salaryData.koszty, 'kwota_netto'),
+  nettoSum: salaryData.podsumowanie.suma_kwota_netto,
+  costMin: getMin(salaryData.koszty, 'pracodawca_koszt_calkowity'),
+  costMax: getMax(salaryData.koszty, 'pracodawca_koszt_calkowity'),
+  costAvg: getAvg(salaryData.koszty, 'pracodawca_koszt_calkowity'),
+  costSum: salaryData.podsumowanie.suma_pracodawca_koszt_calkowity,
   type: `uop-${creativeRightsValue}`,
 })
 
-const prepareB2bData = (brutto, zus) => ({
+const prepareB2bLineData = (brutto, zus) => ({
   gross: brutto,
   nettoMin: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
   nettoMax: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
   nettoAvg: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
+  nettoSum: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus) * 12,
+  costMin: null,
+  costMax: null,
+  costAvg: null,
+  costSum: null,
   type: `b2b-${zus === LOW_ZUS ? 'low-zus' : 'high-zus'}`,
 })
 
@@ -176,8 +190,8 @@ module.exports = async () => {
   } while (toRetry.length !== 0)
 
   bruttoValues.forEach((brutto) => {
-    results.push(prepareB2bData(brutto, HIGH_ZUS))
-    results.push(prepareB2bData(brutto, LOW_ZUS))
+    results.push(prepareB2bLineData(brutto, HIGH_ZUS))
+    results.push(prepareB2bLineData(brutto, LOW_ZUS))
   })
 
   console.log('Data has been prepared')

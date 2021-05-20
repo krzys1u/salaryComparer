@@ -9,11 +9,6 @@ const prepareTypes = (types) => {
 module.exports = (db) => {
   return async (req, res) => {
     const { from, to, types } = req.query
-    const filters = []
-
-    from && filters.push(['brutto', '>=', parseInt(from)])
-    to && filters.push(['brutto', '<=', parseInt(to)])
-    types && filters.push(['type', 'in', prepareTypes(types)])
 
     const versionData = await db
       .select()
@@ -36,13 +31,16 @@ module.exports = (db) => {
       .orderBy('gross')
 
     return res.json({
-      data: data.map(({ gross, nettoMin, nettoMax, nettoAvg, type }) => ({
-        brutto: gross,
-        nettoMin,
-        nettoMax,
-        nettoAvg,
-        type,
-      })),
+      data: data.map(
+        ({ gross, nettoMin, nettoMax, nettoAvg, nettoSum, type }) => ({
+          gross,
+          nettoMin,
+          nettoMax,
+          nettoAvg,
+          nettoSum,
+          type,
+        }),
+      ),
     })
   }
 }

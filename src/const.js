@@ -10,7 +10,8 @@ export const EMPLOYMENT_TYPES = [
 ]
 
 export const MEASURES = [
-  { label: 'Min', name: 'nettoMin' },
-  { label: 'Max', name: 'nettoMax' },
-  { label: 'averageLabel', name: 'nettoAvg' },
+  { label: 'Min', name: 'nettoMin', additionalFields: ['costMin'] },
+  { label: 'Max', name: 'nettoMax', additionalFields: ['costMax'] },
+  { label: 'averageLabel', name: 'nettoAvg', additionalFields: ['costAvg'] },
+  { label: 'Sum', name: 'nettoSum', additionalFields: ['costSum'] },
 ]
