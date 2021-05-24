@@ -32,12 +32,27 @@ module.exports = (db) => {
 
     return res.json({
       data: data.map(
-        ({ gross, nettoMin, nettoMax, nettoAvg, nettoSum, type }) => ({
+        ({
           gross,
           nettoMin,
           nettoMax,
           nettoAvg,
           nettoSum,
+          costMin,
+          costMax,
+          costAvg,
+          costSum,
+          type,
+        }) => ({
+          gross,
+          nettoMin,
+          nettoMax,
+          nettoAvg,
+          nettoSum,
+          costMin,
+          costMax,
+          costAvg,
+          costSum,
           type,
         }),
       ),

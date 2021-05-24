@@ -71,8 +71,6 @@ const prepareData = ({ types, measures, additionalFilters }, data) => {
         const { type, gross } = dataPoint
         const dataPointLabel = getDataPointLabel(label, type)
 
-        console.log('measure', measure)
-
         if (!range[0] || gross < range[0]) {
           range[0] = gross
         }
@@ -84,9 +82,6 @@ const prepareData = ({ types, measures, additionalFilters }, data) => {
         if (!dataPoints[gross]) {
           dataPoints[gross] = []
         }
-
-        console.log('measuer', measure)
-        console.log('additionalFields', additionalFields)
 
         const dataSeriesToShow = [
           { name, label: dataPointLabel },
