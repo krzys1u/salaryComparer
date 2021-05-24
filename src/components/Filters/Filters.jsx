@@ -50,12 +50,17 @@ export const Filters = withDebug(function Filters(props) {
   )
 
   const updateTypes = useCallback(
-    (name, checked) => {
+    (checkbox, checked) => {
+      const { name } = checkbox
+
       setState({
         ...state,
         types: {
           ...state.types,
-          [name]: checked,
+          [name]: {
+            checked,
+            data: checkbox,
+          },
         },
       })
 
@@ -65,12 +70,17 @@ export const Filters = withDebug(function Filters(props) {
   )
 
   const updateMeasures = useCallback(
-    (name, checked) => {
+    (checkbox, checked) => {
+      const { name } = checkbox
+
       setState({
         ...state,
         measures: {
           ...state.measures,
-          [name]: checked,
+          [name]: {
+            checked,
+            data: checkbox,
+          },
         },
       })
 
@@ -80,12 +90,17 @@ export const Filters = withDebug(function Filters(props) {
   )
 
   const updateAdditionalFilters = useCallback(
-    (name, checked) => {
+    (checkbox, checked) => {
+      const { name } = checkbox
+
       setState({
         ...state,
         additionalFilters: {
           ...state.additionalFilters,
-          [name]: checked,
+          [name]: {
+            checked,
+            data: checkbox,
+          },
         },
       })
 
@@ -113,7 +128,8 @@ export const Filters = withDebug(function Filters(props) {
     checkboxes: EMPLOYMENT_TYPES.map((config) => ({
       ...config,
       label: t(config.label),
-      checked: state.types[config.name] || false,
+      checked:
+        (state.types[config.name] || { checked: false }).checked || false,
     })),
     update: updateTypes,
   }
@@ -123,7 +139,8 @@ export const Filters = withDebug(function Filters(props) {
     checkboxes: MEASURES.map((config) => ({
       ...config,
       label: t(config.label),
-      checked: state.measures[config.name] || false,
+      checked:
+        (state.measures[config.name] || { checked: false }).checked || false,
     })),
     update: updateMeasures,
   }
@@ -133,7 +150,9 @@ export const Filters = withDebug(function Filters(props) {
     checkboxes: ADDITIONAL_FILTERS.map((config) => ({
       ...config,
       label: t(config.label),
-      checked: state.additionalFilters[config.name] || false,
+      checked:
+        (state.additionalFilters[config.name] || { checked: false }).checked ||
+        false,
     })),
     update: updateAdditionalFilters,
   }

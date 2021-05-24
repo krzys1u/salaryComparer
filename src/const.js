@@ -10,14 +10,55 @@ export const EMPLOYMENT_TYPES = [
 ]
 
 export const MEASURES = [
-  { label: 'Min', name: 'nettoMin', additionalFields: ['costMin'] },
-  { label: 'Max', name: 'nettoMax', additionalFields: ['costMax'] },
-  { label: 'averageLabel', name: 'nettoAvg', additionalFields: ['costAvg'] },
-  { label: 'sumLabel', name: 'nettoSum', additionalFields: ['costSum'] },
+  {
+    label: 'Min',
+    name: 'nettoMin',
+    additionalFields: [
+      {
+        name: 'costMin',
+        labelSuffix: 'costMinLabelSuffix',
+        enabler: 'showEmployerCost',
+      },
+    ],
+  },
+  {
+    label: 'Max',
+    name: 'nettoMax',
+    additionalFields: [
+      {
+        name: 'costMax',
+        labelSuffix: 'costMaxLabelSuffix',
+        enabler: 'showEmployerCost',
+      },
+    ],
+  },
+  {
+    label: 'averageLabel',
+    name: 'nettoAvg',
+    additionalFields: [
+      {
+        name: 'costAvg',
+        labelSuffix: 'costAvgLabelSuffix',
+        enabler: 'showEmployerCost',
+      },
+    ],
+  },
+  {
+    label: 'sumLabel',
+    name: 'nettoSum',
+    additionalFields: [
+      {
+        name: 'costSum',
+        labelSuffix: 'costSumLabelSuffix',
+        enabler: 'showEmployerCost',
+      },
+    ],
+  },
 ]
 
 export const ADDITIONAL_FILTERS = [
-  { label: 'showEmployerCost', name: 'showEmployerCost' },
+  { label: 'showEmployerCostLabel', name: 'showEmployerCost' },
+  { label: 'showTaxesLabel', name: 'showTaxes' },
   // { label: 'showNewLad', name: 'showNewLad' },
   // { label: 'showNewLadOnly', name: 'showNewLadOnly' },
 ]

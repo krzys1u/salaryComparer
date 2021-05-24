@@ -35,18 +35,28 @@ const updateQueryString = (filters) => {
     [
       'types',
       Object.keys(filters.types)
-        .filter((key) => !!filters.types[key])
+        .filter((key) => !!filters.types[key].checked)
         .join(','),
     ],
     [
       'measures',
       Object.keys(filters.measures)
-        .filter((key) => !!filters.measures[key])
+        .filter((key) => !!filters.measures[key].checked)
+        .join(','),
+    ],
+    [
+      'additionalFilters',
+      Object.keys(filters.additionalFilters)
+        .filter((key) => !!filters.additionalFilters[key].checked)
         .join(','),
     ],
     ['from', filters.from],
     ['to', filters.to],
   ].reduce((url, [k, v]) => {
+    if (!v) {
+      return url
+    }
+
     url.searchParams.set(k, v)
 
     return url
@@ -82,10 +92,29 @@ const getInitialState = () => {
   const to = parseInt(params.get('to')) || SALARY_MAX
 
   return {
-    types: Object.fromEntries(types.map((key) => [key, true])),
-    measures: Object.fromEntries(measures.map((key) => [key, true])),
+    types: Object.fromEntries(
+      types.map((key) => [
+        key,
+        {
+          data: EMPLOYMENT_TYPES.find(({ name }) => name === key),
+          checked: true,
+        },
+      ]),
+    ),
+    measures: Object.fromEntries(
+      measures.map((key) => [
+        key,
+        { data: MEASURES.find(({ name }) => name === key), checked: true },
+      ]),
+    ),
     additionalFilters: Object.fromEntries(
-      additionalFilters.map((key) => [key, true]),
+      additionalFilters.map((key) => [
+        key,
+        {
+          data: ADDITIONAL_FILTERS.find(({ name }) => name === key),
+          checked: true,
+        },
+      ]),
     ),
     from: from < to ? from : to,
     to: from > to ? from : to,

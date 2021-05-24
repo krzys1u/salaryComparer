@@ -18,21 +18,25 @@ export const CheckboxGroup = ({ checkboxes, label, update }) => {
     update(name, event.target.checked)
   }
 
-  const list = checkboxes.map(({ label, name, checked }) => (
-    <div key={name}>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={checked}
-            onChange={handleChange(name)}
-            value={name}
-            color="primary"
-          />
-        }
-        label={label}
-      />
-    </div>
-  ))
+  const list = checkboxes.map((config) => {
+    const { label, name, checked } = config
+
+    return (
+      <div key={name}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={checked}
+              onChange={handleChange(config)}
+              value={name}
+              color="primary"
+            />
+          }
+          label={label}
+        />
+      </div>
+    )
+  })
 
   return (
     <div className={classes.root}>

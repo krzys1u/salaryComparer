@@ -5,7 +5,7 @@ import { Diagram } from '../Diagram/Diagram'
 import { EmptyFilters } from '../EmptyFilters/EmptyFilters'
 import { withDebug } from '../../utils/withDebug'
 import { API_URL } from '../../config'
-import { MEASURES, EMPLOYMENT_TYPES } from '../../const'
+import { EMPLOYMENT_TYPES } from '../../const'
 
 const prepareParam = (name, value) => {
   if (!Array.isArray(value)) {
@@ -31,40 +31,47 @@ const fetchSalaryData = async (params) => {
   return data
 }
 
-const areFiltersEmpty = ({ types, measures }) =>
-  !Object.keys(types).filter((key) => !!types[key]).length ||
-  !Object.keys(measures).filter((key) => !!measures[key]).length
+const areFiltersEmpty = ({ types, measures, additionalFilters }) =>
+  !Object.keys(types).filter((key) => !!types[key].checked).length ||
+  !Object.keys(measures).filter((key) => !!measures[key].checked).length
 
 const fetchData = async (queryKey) => {
   const {
-    queryKey: [, types, from, to],
+    queryKey: [, types, from, to, additionalFilters],
   } = queryKey
 
   return await fetchSalaryData({
-    types: Object.keys(types).filter((key) => !!types[key]),
+    types: Object.keys(types).filter((key) => !!types[key].checked),
+    additionalFilters: Object.keys(additionalFilters).filter(
+      (key) => !!additionalFilters[key].checked,
+    ),
     from,
     to,
   })
 }
 
-const prepareData = ({ types, measures }, data) => {
+const prepareData = ({ types, measures, additionalFilters }, data) => {
   const dataSeries = {}
   const dataPoints = {}
 
   const getLabel = (entries, key) =>
     entries.find((entry) => entry.name === key).label
 
-  const getDataPointLabel = (measure, type) =>
-    `${getLabel(MEASURES, measure)} (${getLabel(EMPLOYMENT_TYPES, type)})`
+  const getDataPointLabel = (label, type) =>
+    `${label} (${getLabel(EMPLOYMENT_TYPES, type)})`
 
   const range = []
 
   data.forEach((dataPoint) => {
-    Object.keys(measures)
-      .filter((key) => !!measures[key])
+    Object.values(measures)
+      .filter((measure) => !!measure.checked)
       .forEach((measure) => {
+        const { name, label, additionalFields } = measure.data
+
         const { type, gross } = dataPoint
-        const label = getDataPointLabel(measure, type)
+        const dataPointLabel = getDataPointLabel(label, type)
+
+        console.log('measure', measure)
 
         if (!range[0] || gross < range[0]) {
           range[0] = gross
@@ -74,20 +81,41 @@ const prepareData = ({ types, measures }, data) => {
           range[1] = gross
         }
 
-        if (!dataSeries[label]) {
-          dataSeries[label] = []
-        }
-
         if (!dataPoints[gross]) {
           dataPoints[gross] = []
         }
 
-        dataPoints[gross].push([label, dataPoint[measure]])
+        console.log('measuer', measure)
+        console.log('additionalFields', additionalFields)
 
-        dataSeries[label].push({
-          x: gross,
-          y: dataPoint[measure],
-          label,
+        const dataSeriesToShow = [
+          { name, label: dataPointLabel },
+          ...additionalFields
+            .filter(({ enabler }) => !!additionalFilters[enabler])
+            .map(({ name, labelSuffix }) => ({
+              name,
+              label: `${dataPointLabel} - ${labelSuffix}`,
+            })),
+        ]
+
+        dataSeriesToShow.forEach((field) => {
+          const { name, label } = field
+
+          if (!dataPoint[name]) {
+            return
+          }
+
+          dataPoints[gross].push([label, dataPoint[name]])
+
+          if (!dataSeries[label]) {
+            dataSeries[label] = []
+          }
+
+          dataSeries[label].push({
+            x: gross,
+            y: dataPoint[name],
+            label,
+          })
         })
       })
   })
@@ -106,7 +134,13 @@ export const Workspace = withDebug(function Workspace({ filters }) {
   const filtersEmpty = areFiltersEmpty(filters)
 
   const { isError, error, refetch, data } = useQuery(
-    ['data', filters.types, filters.from, filters.to],
+    [
+      'data',
+      filters.types,
+      filters.from,
+      filters.to,
+      filters.additionalFilters,
+    ],
     fetchData,
     {
       enabled: !filtersEmpty,
