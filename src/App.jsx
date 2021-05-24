@@ -10,7 +10,7 @@ import { Loader } from './components/Loader/Loader'
 import { Workspace } from './components/Workspace/Workspace'
 
 import { SALARY_MAX, SALARY_MIN } from './config'
-import { EMPLOYMENT_TYPES, MEASURES } from './const'
+import { EMPLOYMENT_TYPES, MEASURES, ADDITIONAL_FILTERS } from './const'
 import { withDebug } from './utils/withDebug'
 
 import { WorkspaceSizeContext } from './contexts/WorkspaceSizeContext'
@@ -65,6 +65,9 @@ const getInitialState = () => {
   const measureTypes = Object.fromEntries(
     MEASURES.map((measure) => [measure.name, 1]),
   )
+  const additionalFiltersTypes = Object.fromEntries(
+    ADDITIONAL_FILTERS.map((filter) => [filter.name, 1]),
+  )
 
   const types = (params.get('types') || 'uop-0')
     .split(',')
@@ -72,12 +75,18 @@ const getInitialState = () => {
   const measures = (params.get('measures') || 'nettoMin')
     .split(',')
     .filter((type) => measureTypes[type])
+  const additionalFilters = (params.get('additionalFilters') || '')
+    .split(',')
+    .filter((type) => additionalFiltersTypes[type])
   const from = parseInt(params.get('from')) || SALARY_MIN
   const to = parseInt(params.get('to')) || SALARY_MAX
 
   return {
     types: Object.fromEntries(types.map((key) => [key, true])),
     measures: Object.fromEntries(measures.map((key) => [key, true])),
+    additionalFilters: Object.fromEntries(
+      additionalFilters.map((key) => [key, true]),
+    ),
     from: from < to ? from : to,
     to: from > to ? from : to,
   }

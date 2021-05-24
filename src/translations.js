@@ -21,7 +21,10 @@ export const TRANSLATIONS = {
     lowZusLabel: 'mały ZUS',
     highZusLabel: 'duży ZUS',
     averageLabel: 'Średnia',
+    sumLabel: 'Suma',
     grossLabel: 'Brutto',
+    additionalFiltersLabel: 'Dodatkowe opcje',
+    showEmployerCost: 'Pokaż koszty pracodawcy',
   },
   [EN]: {
     noFiltersLabel: 'No filters selected',
@@ -37,6 +40,9 @@ export const TRANSLATIONS = {
     lowZusLabel: 'low ZUS',
     highZusLabel: 'high ZUS',
     averageLabel: 'Avg',
+    sumLabel: 'Sum',
     grossLabel: 'Gross',
+    additionalFiltersLabel: 'Additional options',
+    showEmployerCost: 'Show employer costs',
   },
 }

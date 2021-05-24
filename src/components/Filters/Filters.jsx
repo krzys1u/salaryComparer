@@ -8,7 +8,7 @@ import { FilterInputs } from '../FilterInputs/FilterInputs'
 
 import { SALARY_MIN, SALARY_MAX, SALARY_SLIDER_STEP } from '../../config'
 
-import { EMPLOYMENT_TYPES, MEASURES } from '../../const'
+import { ADDITIONAL_FILTERS, EMPLOYMENT_TYPES, MEASURES } from '../../const'
 import { useTranslation } from '../../contexts/LanguageContext'
 
 const MIN_SLIDER = SALARY_MIN
@@ -24,6 +24,7 @@ export const Filters = withDebug(function Filters(props) {
     to: values.to > MAX_SLIDER ? MAX_SLIDER : values.to,
     types: values.types,
     measures: values.measures,
+    additionalFilters: values.additionalFilters,
   })
 
   const [isSubmitEnabled, setSubmitEnabled] = useState(true)
@@ -78,6 +79,21 @@ export const Filters = withDebug(function Filters(props) {
     [setSubmitEnabled, state, setState],
   )
 
+  const updateAdditionalFilters = useCallback(
+    (name, checked) => {
+      setState({
+        ...state,
+        additionalFilters: {
+          ...state.additionalFilters,
+          [name]: checked,
+        },
+      })
+
+      setSubmitEnabled(true)
+    },
+    [setSubmitEnabled, state, setState],
+  )
+
   const submit = useCallback(() => {
     submitAction(state)
     setSubmitEnabled(false)
@@ -112,6 +128,16 @@ export const Filters = withDebug(function Filters(props) {
     update: updateMeasures,
   }
 
+  const additionalFiltersProps = {
+    label: translations.additionalFiltersLabel,
+    checkboxes: ADDITIONAL_FILTERS.map((config) => ({
+      ...config,
+      label: t(config.label),
+      checked: state.additionalFilters[config.name] || false,
+    })),
+    update: updateAdditionalFilters,
+  }
+
   const multiSliderChange = useCallback(
     (_, value) => {
       setState({ ...state, from: Math.min(...value), to: Math.max(...value) })
@@ -141,8 +167,11 @@ export const Filters = withDebug(function Filters(props) {
 
         <FilterInputs {...filterInputsProps} />
       </div>
+
       <CheckboxGroup {...employmentTypesProps} />
       <CheckboxGroup {...measuresProps} />
+      <CheckboxGroup {...additionalFiltersProps} />
+
       <Button
         variant="outlined"
         color="primary"

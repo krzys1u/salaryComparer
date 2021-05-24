@@ -13,5 +13,11 @@ export const MEASURES = [
   { label: 'Min', name: 'nettoMin', additionalFields: ['costMin'] },
   { label: 'Max', name: 'nettoMax', additionalFields: ['costMax'] },
   { label: 'averageLabel', name: 'nettoAvg', additionalFields: ['costAvg'] },
-  { label: 'Sum', name: 'nettoSum', additionalFields: ['costSum'] },
+  { label: 'sumLabel', name: 'nettoSum', additionalFields: ['costSum'] },
+]
+
+export const ADDITIONAL_FILTERS = [
+  { label: 'showEmployerCost', name: 'showEmployerCost' },
+  // { label: 'showNewLad', name: 'showNewLad' },
+  // { label: 'showNewLadOnly', name: 'showNewLadOnly' },
 ]
