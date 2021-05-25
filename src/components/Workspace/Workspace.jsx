@@ -95,7 +95,13 @@ const prepareData = ({ types, measures, additionalFilters }, data) => {
         const dataSeriesToShow = [
           { name, label: dataPointLabel },
           ...additionalFields
-            .filter(({ enabler }) => !!additionalFilters[enabler].checked)
+            .filter(
+              ({ enabler }) =>
+                !!(
+                  additionalFilters[enabler] &&
+                  additionalFilters[enabler].checked
+                ),
+            )
             .map(({ name, labelSuffix }) => ({
               name,
               label: `${dataPointLabel} - ${labelSuffix}`,
