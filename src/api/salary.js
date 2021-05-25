@@ -1,11 +1,15 @@
 import { UOP_EMPLOYER_COST } from '../const'
 
-const prepareTypes = (types) => {
-  if (Array.isArray(types)) {
-    return types
+const prepareParam = (param) => {
+  if (!param) {
+    return []
   }
 
-  return [types]
+  if (Array.isArray(param)) {
+    return param
+  }
+
+  return [param]
 }
 
 module.exports = (db) => {
@@ -24,8 +28,8 @@ module.exports = (db) => {
     const version = versionData[0].value
 
     const typesToFetch = [
-      ...prepareTypes(types),
-      ...(additionalFilters && additionalFilters.showEmployerCost
+      ...prepareParam(types),
+      ...((prepareParam(additionalFilters) || []).includes('showEmployerCost')
         ? [UOP_EMPLOYER_COST]
         : []),
     ]
