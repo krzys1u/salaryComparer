@@ -5,7 +5,7 @@ import { Diagram } from '../Diagram/Diagram'
 import { EmptyFilters } from '../EmptyFilters/EmptyFilters'
 import { withDebug } from '../../utils/withDebug'
 import { API_URL } from '../../config'
-import { EMPLOYMENT_TYPES } from '../../const'
+import { EMPLOYMENT_TYPES, UOP_EMPLOYER_COST } from '../../const'
 
 const prepareParam = (name, value) => {
   if (!Array.isArray(value)) {
@@ -58,7 +58,16 @@ const prepareData = ({ types, measures, additionalFilters }, data) => {
     entries.find((entry) => entry.name === key).label
 
   const getDataPointLabel = (label, type) =>
-    `${label} (${getLabel(EMPLOYMENT_TYPES, type)})`
+    `${label} (${getLabel(
+      [
+        ...EMPLOYMENT_TYPES,
+        {
+          label: 'contractOfEmploymentEmployerCostLabel',
+          name: UOP_EMPLOYER_COST,
+        },
+      ],
+      type,
+    )})`
 
   const range = []
 

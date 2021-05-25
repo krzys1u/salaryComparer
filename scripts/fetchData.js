@@ -48,10 +48,18 @@ const parseSalaryData = (salaryData, creativeRightsValue) => ({
   nettoMax: getMax(salaryData.koszty, 'kwota_netto'),
   nettoAvg: getAvg(salaryData.koszty, 'kwota_netto'),
   nettoSum: salaryData.podsumowanie.suma_kwota_netto,
-  costMin: getMin(salaryData.koszty, 'pracodawca_koszt_calkowity'),
-  costMax: getMax(salaryData.koszty, 'pracodawca_koszt_calkowity'),
-  costAvg: getAvg(salaryData.koszty, 'pracodawca_koszt_calkowity'),
-  costSum: salaryData.podsumowanie.suma_pracodawca_koszt_calkowity,
+  taxMin:
+    getMin(salaryData.koszty, 'pracodawca_koszt_calkowity') -
+    getMin(salaryData.koszty, 'kwota_netto'),
+  taxMax:
+    getMax(salaryData.koszty, 'pracodawca_koszt_calkowity') -
+    getMax(salaryData.koszty, 'kwota_netto'),
+  taxAvg:
+    getAvg(salaryData.koszty, 'pracodawca_koszt_calkowity') -
+    getAvg(salaryData.koszty, 'kwota_netto'),
+  taxSum:
+    salaryData.podsumowanie.suma_pracodawca_koszt_calkowity -
+    salaryData.podsumowanie.suma_kwota_netto,
   type: `uop-${creativeRightsValue}`,
 })
 
@@ -61,10 +69,10 @@ const prepareB2bLineData = (brutto, zus) => ({
   nettoMax: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
   nettoAvg: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus),
   nettoSum: round(brutto * (1 - INCOME_TAX_PERCENTAGE) - zus) * 12,
-  costMin: null,
-  costMax: null,
-  costAvg: null,
-  costSum: null,
+  taxMin: null,
+  taxMax: null,
+  taxAvg: null,
+  taxSum: null,
   type: `b2b-${zus === LOW_ZUS ? 'low-zus' : 'high-zus'}`,
 })
 
@@ -194,7 +202,25 @@ module.exports = async () => {
     results.push(prepareB2bLineData(brutto, LOW_ZUS))
   })
 
+  const employerCost = results
+    .filter(({ type }) => type === 'uop')
+    .map((data) => ({
+      ...data,
+      type: 'uop-employer-cost',
+      nettoMin: data.nettoMin + data.taxMin,
+      nettoMax: data.nettoMax + data.taxMax,
+      nettoAvg: data.nettoAvg + data.taxAvg,
+      nettoSum: data.nettoSum + data.taxSum,
+      taxMin: null,
+      taxMax: null,
+      taxAvg: null,
+      taxSum: null,
+    }))
+
   console.log('Data has been prepared')
 
-  return results
+  return [
+    ...results,
+    ...employerCost,
+  ]
 }

@@ -70,7 +70,7 @@ const renderTooltip = (dataPoints, { translations, t }, { datum }) => {
                 textDecoration: isCurrent ? `underline solid ${color}` : null,
                 fontWeight: isCurrent ? 600 : 200,
               }}>
-              {t(label)}
+              {t(label)}:
             </span>
             {currentValue}
           </div>

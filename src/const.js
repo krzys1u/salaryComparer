@@ -1,5 +1,7 @@
 import { CREATIVE_RIGHTS_STEPS } from './config'
 
+export const UOP_EMPLOYER_COST = 'uop-employer-cost'
+
 export const EMPLOYMENT_TYPES = [
   ...CREATIVE_RIGHTS_STEPS.map((creativeRightsValue) => ({
     label: `contractOfEmploymentLabel ${creativeRightsValue}%`,
@@ -15,9 +17,9 @@ export const MEASURES = [
     name: 'nettoMin',
     additionalFields: [
       {
-        name: 'costMin',
-        labelSuffix: 'costMinLabelSuffix',
-        enabler: 'showEmployerCost',
+        name: 'taxMin',
+        labelSuffix: 'taxMinLabelSuffix',
+        enabler: 'showTaxes',
       },
     ],
   },
@@ -26,9 +28,9 @@ export const MEASURES = [
     name: 'nettoMax',
     additionalFields: [
       {
-        name: 'costMax',
-        labelSuffix: 'costMaxLabelSuffix',
-        enabler: 'showEmployerCost',
+        name: 'taxMax',
+        labelSuffix: 'taxMaxLabelSuffix',
+        enabler: 'showTaxes',
       },
     ],
   },
@@ -37,9 +39,9 @@ export const MEASURES = [
     name: 'nettoAvg',
     additionalFields: [
       {
-        name: 'costAvg',
-        labelSuffix: 'costAvgLabelSuffix',
-        enabler: 'showEmployerCost',
+        name: 'taxAvg',
+        labelSuffix: 'taxAvgLabelSuffix',
+        enabler: 'showTaxes',
       },
     ],
   },
@@ -48,9 +50,9 @@ export const MEASURES = [
     name: 'nettoSum',
     additionalFields: [
       {
-        name: 'costSum',
-        labelSuffix: 'costSumLabelSuffix',
-        enabler: 'showEmployerCost',
+        name: 'taxSum',
+        labelSuffix: 'taxSumLabelSuffix',
+        enabler: 'showTaxes',
       },
     ],
   },
@@ -58,7 +60,7 @@ export const MEASURES = [
 
 export const ADDITIONAL_FILTERS = [
   { label: 'showEmployerCostLabel', name: 'showEmployerCost' },
-  { label: 'showOnlyEmployerCostLabel', name: 'showOnlyEmployerCost' },
+  { label: 'showTaxesLabel', name: 'showTaxes' },
   // { label: 'showNewLad', name: 'showNewLad' },
   // { label: 'showNewLadOnly', name: 'showNewLadOnly' },
 ]

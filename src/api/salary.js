@@ -1,3 +1,5 @@
+import { UOP_EMPLOYER_COST } from '../const'
+
 const prepareTypes = (types) => {
   if (Array.isArray(types)) {
     return types
@@ -8,7 +10,7 @@ const prepareTypes = (types) => {
 
 module.exports = (db) => {
   return async (req, res) => {
-    const { from, to, types } = req.query
+    const { from, to, types, additionalFilters } = req.query
 
     const versionData = await db
       .select()
@@ -21,12 +23,17 @@ module.exports = (db) => {
 
     const version = versionData[0].value
 
+    const typesToFetch = [
+      ...prepareTypes(types),
+      ...(additionalFilters.showEmployerCost ? [UOP_EMPLOYER_COST] : []),
+    ]
+
     const data = await db
       .select()
       .table('salaries')
       .where('gross', '>', parseInt(from) - 1)
       .andWhere('gross', '<', parseInt(to) + 1)
-      .andWhere((builder) => builder.whereIn('type', prepareTypes(types)))
+      .andWhere((builder) => builder.whereIn('type', typesToFetch))
       .andWhere('version', version)
       .orderBy('gross')
 
@@ -38,10 +45,10 @@ module.exports = (db) => {
           nettoMax,
           nettoAvg,
           nettoSum,
-          costMin,
-          costMax,
-          costAvg,
-          costSum,
+          taxMin,
+          taxMax,
+          taxAvg,
+          taxSum,
           type,
         }) => ({
           gross,
@@ -49,10 +56,10 @@ module.exports = (db) => {
           nettoMax,
           nettoAvg,
           nettoSum,
-          costMin,
-          costMax,
-          costAvg,
-          costSum,
+          taxMin,
+          taxMax,
+          taxAvg,
+          taxSum,
           type,
         }),
       ),
