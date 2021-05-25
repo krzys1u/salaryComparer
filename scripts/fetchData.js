@@ -203,7 +203,7 @@ module.exports = async () => {
   })
 
   const employerCost = results
-    .filter(({ type }) => type === 'uop')
+    .filter(({ type }) => type === 'uop-0')
     .map((data) => ({
       ...data,
       type: 'uop-employer-cost',
