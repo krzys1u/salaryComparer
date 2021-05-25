@@ -219,8 +219,5 @@ module.exports = async () => {
 
   console.log('Data has been prepared')
 
-  return [
-    ...results,
-    ...employerCost,
-  ]
+  return [...results, ...employerCost]
 }
