@@ -25,7 +25,7 @@ module.exports = (db) => {
 
     const typesToFetch = [
       ...prepareTypes(types),
-      ...(additionalFilters.showEmployerCost ? [UOP_EMPLOYER_COST] : []),
+      ...(additionalFilters && additionalFilters.showEmployerCost ? [UOP_EMPLOYER_COST] : []),
     ]
 
     const data = await db
