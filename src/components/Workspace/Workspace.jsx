@@ -84,9 +84,11 @@ const prepareData = ({ types, measures, additionalFilters }, data) => {
         }
 
         const dataSeriesToShow = [
-          { name, label: dataPointLabel },
+          ...(!additionalFilters.showOnlyEmployerCost.checked
+            ? { name, label: dataPointLabel }
+            : {}),
           ...additionalFields
-            .filter(({ enabler }) => !!additionalFilters[enabler])
+            .filter(({ enabler }) => !!additionalFilters[enabler].checked)
             .map(({ name, labelSuffix }) => ({
               name,
               label: `${dataPointLabel} - ${labelSuffix}`,

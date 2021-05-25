@@ -58,7 +58,7 @@ export const MEASURES = [
 
 export const ADDITIONAL_FILTERS = [
   { label: 'showEmployerCostLabel', name: 'showEmployerCost' },
-  { label: 'showTaxesLabel', name: 'showTaxes' },
+  { label: 'showOnlyEmployerCostLabel', name: 'showOnlyEmployerCost' },
   // { label: 'showNewLad', name: 'showNewLad' },
   // { label: 'showNewLadOnly', name: 'showNewLadOnly' },
 ]
