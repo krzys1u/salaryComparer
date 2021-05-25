@@ -49,13 +49,13 @@ const parseSalaryData = (salaryData, creativeRightsValue) => ({
   nettoAvg: getAvg(salaryData.koszty, 'kwota_netto'),
   nettoSum: salaryData.podsumowanie.suma_kwota_netto,
   taxMin:
-    getMin(salaryData.koszty, 'pracodawca_koszt_calkowity') -
+    salaryData.koszty[0].kwota_brutto -
     getMin(salaryData.koszty, 'kwota_netto'),
   taxMax:
-    getMax(salaryData.koszty, 'pracodawca_koszt_calkowity') -
+    salaryData.koszty[0].kwota_brutto -
     getMax(salaryData.koszty, 'kwota_netto'),
   taxAvg:
-    getAvg(salaryData.koszty, 'pracodawca_koszt_calkowity') -
+    salaryData.koszty[0].kwota_brutto -
     getAvg(salaryData.koszty, 'kwota_netto'),
   taxSum:
     salaryData.podsumowanie.suma_pracodawca_koszt_calkowity -
