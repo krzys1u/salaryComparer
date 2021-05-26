@@ -54,8 +54,11 @@ const prepareData = ({ types, measures, additionalFilters }, data) => {
   const dataSeries = {}
   const dataPoints = {}
 
-  const getLabel = (entries, key) =>
-    entries.find((entry) => entry.name === key).label
+  const getLabel = (entries, key) => {
+    const entry = entries.find((entry) => entry.name === key)
+
+    return entry.legendLabel || entry.label
+  }
 
   const getDataPointLabel = (label, type) =>
     `${label} (${getLabel(
