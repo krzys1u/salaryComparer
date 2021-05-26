@@ -27,20 +27,34 @@ const printReport = () => {
   console.info('\t toRetry: ', toRetry.length)
 }
 
-const round = (number) => Math.round(number * 100 + Number.EPSILON) / 100
+const round = (number) => {
+  const rounded = Math.round(number * 100 + Number.EPSILON) / 100 + ''
+
+  const dotPosition = rounded.indexOf('.')
+
+  return dotPosition === -1
+    ? parseInt(rounded)
+    : parseFloat(rounded.slice(0, dotPosition + 3))
+}
 
 const getMin = (array, compareKey) =>
-  array.sort((first, second) => first[compareKey] - second[compareKey])[0][
-    compareKey
-  ]
+  round(
+    array.sort((first, second) => first[compareKey] - second[compareKey])[0][
+      compareKey
+    ],
+  )
 
 const getMax = (array, compareKey) =>
-  array.sort((first, second) => second[compareKey] - first[compareKey])[0][
-    compareKey
-  ]
+  round(
+    array.sort((first, second) => second[compareKey] - first[compareKey])[0][
+      compareKey
+    ],
+  )
 
 const getAvg = (array, key) =>
-  array.reduce((acc, monthData) => acc + monthData[key], 0) / array.length
+  round(
+    array.reduce((acc, monthData) => acc + monthData[key], 0) / array.length,
+  )
 
 const parseSalaryData = (salaryData, creativeRightsValue) => ({
   gross: salaryData.koszty[0].kwota_brutto,
@@ -48,18 +62,28 @@ const parseSalaryData = (salaryData, creativeRightsValue) => ({
   nettoMax: getMax(salaryData.koszty, 'kwota_netto'),
   nettoAvg: getAvg(salaryData.koszty, 'kwota_netto'),
   nettoSum: salaryData.podsumowanie.suma_kwota_netto,
-  taxMin:
+  taxMin: round(
     salaryData.koszty[0].kwota_brutto -
-    getMin(salaryData.koszty, 'kwota_netto'),
-  taxMax:
+      getMin(salaryData.koszty, 'kwota_netto'),
+  ),
+  taxMax: round(
     salaryData.koszty[0].kwota_brutto -
-    getMax(salaryData.koszty, 'kwota_netto'),
-  taxAvg:
+      getMax(salaryData.koszty, 'kwota_netto'),
+  ),
+  taxAvg: round(
     salaryData.koszty[0].kwota_brutto -
-    getAvg(salaryData.koszty, 'kwota_netto'),
-  taxSum:
+      getAvg(salaryData.koszty, 'kwota_netto'),
+  ),
+  taxSum: round(
     salaryData.podsumowanie.suma_pracodawca_koszt_calkowity -
-    salaryData.podsumowanie.suma_kwota_netto,
+      salaryData.podsumowanie.suma_kwota_netto,
+  ),
+  costs: {
+    min: getMin(salaryData.koszty, 'pracodawca_koszt_calkowity'),
+    max: getMax(salaryData.koszty, 'pracodawca_koszt_calkowity'),
+    avg: getAvg(salaryData.koszty, 'pracodawca_koszt_calkowity'),
+    sum: salaryData.podsumowanie.suma_pracodawca_koszt_calkowity,
+  },
   type: `uop-${creativeRightsValue}`,
 })
 
@@ -207,10 +231,10 @@ module.exports = async () => {
     .map((data) => ({
       ...data,
       type: 'uop-employer-cost',
-      nettoMin: data.nettoMin + data.taxMin,
-      nettoMax: data.nettoMax + data.taxMax,
-      nettoAvg: data.nettoAvg + data.taxAvg,
-      nettoSum: data.nettoSum + data.taxSum,
+      nettoMin: data.costs.min,
+      nettoMax: data.costs.max,
+      nettoAvg: data.costs.avg,
+      nettoSum: data.costs.sum,
       taxMin: null,
       taxMax: null,
       taxAvg: null,

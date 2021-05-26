@@ -25,7 +25,9 @@ export const TRANSLATIONS = {
     sumLabel: 'Suma',
     grossLabel: 'Brutto',
     additionalFiltersLabel: 'Dodatkowe opcje',
-    showEmployerCost: 'Pokaż koszty pracodawcy',
+    showEmployerCostLabel: 'Koszty pracodawcy',
+    showTaxesLabel: 'Podatki',
+    taxMaxLabelSuffix: 'podatki',
   },
   [EN]: {
     noFiltersLabel: 'No filters selected',
@@ -45,6 +47,8 @@ export const TRANSLATIONS = {
     sumLabel: 'Sum',
     grossLabel: 'Gross',
     additionalFiltersLabel: 'Additional options',
-    showEmployerCost: 'Show employer costs',
+    showEmployerCostLabel: 'Employer costs',
+    showTaxesLabel: 'Taxes',
+    taxMaxLabelSuffix: 'taxes',
   },
 }

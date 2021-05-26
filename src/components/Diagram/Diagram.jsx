@@ -19,12 +19,12 @@ const DOMAIN_OFFSET = 500
 const COLORS = [
   '#c92a2a',
   '#862e9c',
-  '#5f3dc4',
   '#364fc7',
   '#2b8a3e',
-  '#5c940d',
+  '#5f3dc4',
   '#e67700',
   '#d9480f',
+  '#5c940d',
   '#69d2e7',
   '#f38630',
   '#f215b7',
@@ -33,12 +33,48 @@ const COLORS = [
   '#ffdac9',
   '#b71013',
   '#dca2f2',
+  '#42e2b8',
+  '#f3dfbf',
+  '#eb8a90',
+  '#e55812',
   '#606ff2',
   '#dd18ca',
   '#fffa7a',
   '#f4bcab',
   '#eabb10',
   '#d4f473',
+  '#07004d',
+  '#2d82b7',
+  '#a1869e',
+  '#f4b942',
+  '#e56399',
+  '#f7ec59',
+  '#157a6e',
+  '#f75c03',
+  '#6153cc',
+  '#34e5ff',
+  '#499f68',
+  '#e0ff4f',
+  '#f90093',
+  '#00a6fb',
+  '#05a8aa',
+  '#f896d8',
+  '#5c52a4',
+  '#cc7d62',
+  '#9a02fa',
+  '#94d36f',
+  '#28e364',
+  '#216687',
+  '#4c633c',
+  '#69dbdd',
+  '#969081',
+  '#9c2c52',
+  '#94f560',
+  '#7f7672',
+  '#62ee58',
+  '#1c73dd',
+  '#b1ad90',
+  '#b7766d',
 ]
 
 const LIGHT_AXIS = 'black'
@@ -71,7 +107,7 @@ const renderTooltip = (dataPoints, { translations, t }, { datum }) => {
                 fontWeight: isCurrent ? 600 : 200,
               }}>
               {t(label)}:
-            </span>
+            </span>{' '}
             {currentValue}
           </div>
         )

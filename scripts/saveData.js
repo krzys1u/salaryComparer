@@ -16,7 +16,16 @@ const pgDB = {
     return parseInt((version[0] || { value: '0' }).value)
   },
   saveData: async function (table, data) {
-    await this.db.transacting(this.transaction).insert(data).into(table)
+    await this.db
+      .transacting(this.transaction)
+      .insert(
+        data.map((d) => {
+          delete d.costs
+
+          return d
+        }),
+      )
+      .into(table)
   },
   saveMetadata: async function (metadata, versionDataExists) {
     if (!versionDataExists) {
