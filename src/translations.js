@@ -27,7 +27,7 @@ export const TRANSLATIONS = {
     additionalFiltersLabel: 'Dodatkowe opcje',
     showEmployerCostLabel: 'Koszty pracodawcy',
     showTaxesLabel: 'Podatki',
-    taxMaxLabelSuffix: 'podatki',
+    taxLabelSuffix: 'podatki',
   },
   [EN]: {
     noFiltersLabel: 'No filters selected',
@@ -49,6 +49,6 @@ export const TRANSLATIONS = {
     additionalFiltersLabel: 'Additional options',
     showEmployerCostLabel: 'Employer costs',
     showTaxesLabel: 'Taxes',
-    taxMaxLabelSuffix: 'taxes',
+    taxLabelSuffix: 'taxes',
   },
 }

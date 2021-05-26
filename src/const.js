@@ -18,7 +18,7 @@ export const MEASURES = [
     additionalFields: [
       {
         name: 'taxMin',
-        labelSuffix: 'taxMinLabelSuffix',
+        labelSuffix: 'taxLabelSuffix',
         enabler: 'showTaxes',
       },
     ],
@@ -29,7 +29,7 @@ export const MEASURES = [
     additionalFields: [
       {
         name: 'taxMax',
-        labelSuffix: 'taxMaxLabelSuffix',
+        labelSuffix: 'taxLabelSuffix',
         enabler: 'showTaxes',
       },
     ],
@@ -40,7 +40,7 @@ export const MEASURES = [
     additionalFields: [
       {
         name: 'taxAvg',
-        labelSuffix: 'taxAvgLabelSuffix',
+        labelSuffix: 'taxLabelSuffix',
         enabler: 'showTaxes',
       },
     ],
@@ -51,7 +51,7 @@ export const MEASURES = [
     additionalFields: [
       {
         name: 'taxSum',
-        labelSuffix: 'taxSumLabelSuffix',
+        labelSuffix: 'taxLabelSuffix',
         enabler: 'showTaxes',
       },
     ],
