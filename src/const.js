@@ -6,7 +6,7 @@ export const EMPLOYMENT_TYPES = [
   ...CREATIVE_RIGHTS_STEPS.map((creativeRightsValue) => ({
     label: `contractOfEmploymentLabel ${creativeRightsValue}%`,
     name: `uop-${creativeRightsValue}`,
-    legendLabel: `contractOfEmploymentLabelLegend ${creativeRightsValue}%`,
+    legendLabel: `contractOfEmploymentLegendLabel ${creativeRightsValue}%`,
   })),
   { label: 'B2B(19%) - lowZusLabel', name: 'b2b-low-zus' },
   { label: 'B2B(19%) - highZusLabel', name: 'b2b-high-zus' },
