@@ -19,7 +19,7 @@ export const TRANSLATIONS = {
     dataGeneratedLabel: 'Dane wygenerowano',
     contractOfEmploymentLabel: 'Umowa o pracę - KUP',
     contractOfEmploymentLegendLabel: 'UoP - KUP',
-    contractOfEmploymentEmployerCostLabel: 'Umowa o pracę - koszty pracodawcy',
+    contractOfEmploymentEmployerCostLabel: 'UoP - koszty pracodawcy',
     lowZusLabel: 'mały ZUS',
     highZusLabel: 'duży ZUS',
     averageLabel: 'Średnia',
