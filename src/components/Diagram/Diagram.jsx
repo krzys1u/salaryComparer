@@ -16,6 +16,10 @@ import { useTranslation } from '../../contexts/LanguageContext'
 
 const DOMAIN_OFFSET = 500
 
+let nextColor = 0
+
+const colorsMap = {}
+
 const COLORS = [
   '#c92a2a',
   '#862e9c',
@@ -75,12 +79,20 @@ const COLORS = [
   '#1c73dd',
   '#b1ad90',
   '#b7766d',
+  '#1cd3dd',
+  '#b1ad20',
+  '#bdc66d',
 ]
 
 const LIGHT_AXIS = 'black'
 const DARK_AXIS = '#e8eef4'
 
-const getColor = (index) => COLORS[index]
+const getColor = (label) => {
+  if (!colorsMap[label]) {
+    colorsMap[label] = COLORS[nextColor++]
+  }
+  return colorsMap[label]
+}
 
 const renderTooltip = (dataPoints, { translations, t }, { datum }) => {
   const dataPoint = dataPoints[datum.x]
@@ -93,8 +105,8 @@ const renderTooltip = (dataPoints, { translations, t }, { datum }) => {
         </strong>
       </div>
 
-      {dataPoint.map(([label, currentValue], index) => {
-        const color = getColor(index)
+      {dataPoint.map(([label, currentValue]) => {
+        const color = getColor(label)
 
         const isCurrent = datum.label === label
 
@@ -126,8 +138,8 @@ export const Diagram = ({ filters, dataSeries, dataPoints, dataRange }) => {
   const axisColor = { stroke: isLight ? LIGHT_AXIS : DARK_AXIS }
 
   const legendScale = scaleOrdinal({
-    range: dataSeries.map((_, index) => {
-      const color = getColor(index)
+    range: dataSeries.map(({ label }) => {
+      const color = getColor(label)
 
       return {
         stroke: color,
@@ -187,8 +199,8 @@ export const Diagram = ({ filters, dataSeries, dataPoints, dataRange }) => {
               axisStyles={axisColor}
               tickStyles={axisColor}
             />
-            {dataSeries.map(({ label, data }, index) => {
-              const color = getColor(index)
+            {dataSeries.map(({ label, data }) => {
+              const color = getColor(label)
 
               return (
                 <LineSeries
@@ -208,9 +220,7 @@ export const Diagram = ({ filters, dataSeries, dataPoints, dataRange }) => {
               circleStroke={(d) => {
                 const currentLabel = d.label
 
-                const color = getColor(
-                  Object.keys(tooltipData.series).indexOf(currentLabel),
-                )
+                const color = getColor(currentLabel)
 
                 return d.y === tooltipData.datum.y ? '#fff' : color
               }}
@@ -218,9 +228,7 @@ export const Diagram = ({ filters, dataSeries, dataPoints, dataRange }) => {
               circleFill={(d) => {
                 const currentLabel = d.label
 
-                const color = getColor(
-                  Object.keys(tooltipData.series).indexOf(currentLabel),
-                )
+                const color = getColor(currentLabel)
 
                 return d.y === tooltipData.datum.y ? color : '#fff'
               }}
